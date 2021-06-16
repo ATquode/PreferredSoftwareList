@@ -68,3 +68,26 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_import_qml_plugins(SoftwareList)
     qt_finalize_executable(SoftwareList)
 endif()
+
+if(IOS)
+    include(extra_helper/QtStaticCmake.cmake)
+
+    qt_generate_plugin_import(SoftwareList VERBOSE)
+
+    # EXTRA_PLUGIN are the one required by plugin loaded by qt_generate_plugin_import
+    # It's not automatic yet :( All this workflow might change in future version of qt
+    # with better and better cmake support
+    qt_generate_qml_plugin_import(SoftwareList
+      QML_SRC ${CMAKE_CURRENT_SOURCE_DIR}
+      EXTRA_PLUGIN
+#        QtQuickVirtualKeyboardPlugin
+#        QtQuickVirtualKeyboardSettingsPlugin
+#        QtQuickVirtualKeyboardStylesPlugin
+        QmlFolderListModelPlugin
+        QQuickLayoutsPlugin
+      VERBOSE
+    )
+
+    include(extra_helper/AddQtIosApp.cmake)
+    add_qt_ios_app(SoftwareList VERBOSE)
+endif()

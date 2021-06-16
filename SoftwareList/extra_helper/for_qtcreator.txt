@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2021 Rifat Hasan <atunutemp1@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+Some CMake parameters need to be passed.
+
+For some reason, iOS toolkit is not adding build configuration,
+so that needs to be added.
+Toolchain and toolchain related parameter needs to be added.
+
+So, in Qt Creator's Projects > Build and Run, add CMake parameters.
+i.e.
+
+-DCMAKE_TOOLCHAIN_FILE=%{sourceDir}/SoftwareList/extra_helper/ios.toolchain.cmake
+-DPLATFORM=SIMULATOR64
+-DCMAKE_BUILD_TYPE:STRING=Debug
+
+Qt Creator may get wrong path for iOS deploy. Add a custom build step for copying in that case.
+i.e.
+
+cp -R SoftwareList/Debug-iphonesimulator .
