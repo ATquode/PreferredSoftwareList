@@ -7,3 +7,6 @@ cmake_minimum_required(VERSION 3.14)
 project(PreferredSoftwareList)
 
 add_subdirectory(SoftwareList)
+
+set(CMAKE_FORMAT_EXCLUDE SoftwareList/extra_helper/*|FormatterTarget/*)
+add_subdirectory(FormatterTarget)

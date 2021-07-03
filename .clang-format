@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2021 Rifat Hasan <atunutemp1@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+---
+# modified Webkit style
+BasedOnStyle: Webkit
+TabWidth: 4
+UseCRLF: false
+UseTab: Always
+# ---
+# Language: Cpp
+# # Force pointers to the type for C++.
+# DerivePointerAlignment: false
+# PointerAlignment: Left
+# ---
+# Language: JavaScript
+# # Use 100 columns for JS.
+# ColumnLimit: 100
+# ---
+# Language: Proto
+# # Don't format .proto files.
+# DisableFormat: true
