@@ -45,15 +45,17 @@ find_package(
 	REQUIRED
 )
 
-set(PROJECT_SOURCES main.cpp qml.qrc)
+set(PROJECT_SOURCES Application.cpp main.cpp qml.qrc)
+
+set(PROJECT_HEADERS Application.h)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 	qt_add_executable(SoftwareList MANUAL_FINALIZATION ${PROJECT_SOURCES})
 else()
 	if(ANDROID)
-		add_library(SoftwareList SHARED ${PROJECT_SOURCES})
+		add_library(SoftwareList SHARED ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 	else()
-		add_executable(SoftwareList ${PROJECT_SOURCES})
+		add_executable(SoftwareList ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 	endif()
 endif()
 
