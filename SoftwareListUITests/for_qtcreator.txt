@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2021 Rifat Hasan <atunutemp1@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+Modify CMAKE_PREFIX_PATH, add CMAKE_MODULE_PATH
+
+i.e.,
+-DCMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX};$GTest_install_dir;$AnyRPC_install_dir;$Spix_install_dir
+-DCMAKE_MODULE_PATH=$Spix_src_dir/cmake/modules
+
+
+Make sure to use the same config as the dependencies.
+ So, if the dependencies are built with Release config,
+ use that for the test project too, don't use debug, and vice versa.

@@ -25,6 +25,7 @@ ListView {
 		id: catDelegate
 			Rectangle {
 				id: catItemRect
+				objectName: "listItem_" + index
 				width: ListView.view.width
 				height: 30
 				color: isSelected ? selectedColor : isHovered ? hoverColor : defaultColor
