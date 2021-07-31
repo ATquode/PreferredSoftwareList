@@ -23,57 +23,59 @@ ListView {
 
 	Component {
 		id: catDelegate
-			Rectangle {
-				id: catItemRect
-				objectName: "listItem_" + index
-				width: ListView.view.width
-				height: 30
-				color: isSelected ? selectedColor : isHovered ? hoverColor : defaultColor
-				border {
-					width: 2
-					color: isHovered ? hoverColor : isSelected ? selectedColor : defaultColor
-				}
-				clip: true
+		Rectangle {
+			id: catItemRect
+			objectName: "listItem_" + index
+			width: ListView.view.width
+			height: 30
+			color: isSelected ? selectedColor : isHovered ? hoverColor : defaultColor
+			border {
+				width: 2
+				color: isHovered ? hoverColor : isSelected ? selectedColor : defaultColor
+			}
+			clip: true
 
-				required property int index
-				required property string modelData
+			required property int index
+			required property string modelData
 
-				property bool isSelected: selectedIndex === catItemRect.index
-				property bool isHovered: catItemHoverHandler.hovered || catItemRect.activeFocus //consider currentItem as hovered too, for keyboard navigation
+			property bool isSelected: selectedIndex === catItemRect.index
+			property bool isHovered: catItemHoverHandler.hovered || catItemRect.activeFocus //consider currentItem as hovered too, for keyboard navigation
 
-				RowLayout {
-					anchors.fill: parent
+			RowLayout {
+				anchors.fill: parent
 
-					Label {
-						text: modelData
-						Layout.fillWidth: true
-						leftPadding: 10
-					}
-
-					Label {
-						text: "\u25B6"
-						rightPadding: 10
-						visible: isMobile
-					}
+				Label {
+					text: modelData
+					Layout.fillWidth: true
+					leftPadding: 10
 				}
 
-				TapHandler {
-					onTapped: itemSelected(index)
-				}
-
-				Keys.onPressed: {
-					switch(event.key) {
-					case Qt.Key_Space:
-					case Qt.Key_Return:
-						itemSelected(index);
-					}
-				}
-
-				HoverHandler {
-					id: catItemHoverHandler
+				Label {
+					text: "\u25B6"
+					rightPadding: 10
+					visible: isMobile
 				}
 			}
+
+			TapHandler {
+				onTapped: itemSelected(index)
+			}
+
+			Keys.onPressed: {
+				switch(event.key) {
+				case Qt.Key_Space:
+				case Qt.Key_Return:
+					itemSelected(index);
+					event.accepted = true;
+				}
+			}
+
+			HoverHandler {
+				id: catItemHoverHandler
+			}
+		}
 	}
 
 	delegate: catDelegate
+	ScrollBar.vertical: ScrollBar {}
 }
