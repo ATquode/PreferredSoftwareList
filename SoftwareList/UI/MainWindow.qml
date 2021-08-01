@@ -17,15 +17,23 @@ ApplicationWindow {
 		anchors.fill: parent
 
 		CategoryList {
+			id: catList
 			objectName: "categoryList"
 			SplitView.preferredWidth: parent.width / 5
+			KeyNavigation.right: softList
+			activeFocusOnTab: true
 			model: ['Category 1', 'Category 2', 'Category 3']
 			onItemSelected: {
 				selectedIndex = index;
 				currentIndex = index;
+				catList.forceActiveFocus();
 			}
 		}
 
-		SoftwareList {}
+		SoftwareList {
+			id: softList
+			KeyNavigation.left: catList
+			activeFocusOnTab: true
+		}
 	}
 }

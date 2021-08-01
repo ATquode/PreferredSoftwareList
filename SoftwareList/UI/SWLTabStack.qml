@@ -17,5 +17,7 @@ StackLayout {
 		onItemSelected: currentIndex = -1;
 	}
 
-	SoftwareList {}
+	SoftwareList {
+		activeFocusOnTab: true
+	}
 }
