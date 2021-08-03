@@ -18,10 +18,12 @@ ListView {
 		id: softListDelegate
 		Rectangle {
 			id: swItemRect
+			objectName: "listItem_" + index
 			width: ListView.view.width
 			height: childrenRect.height + 10
 			color: swItemRect.activeFocus ? focusedColor : defaultColor
 
+			required property int index
 			required property var modelData
 
 			Item {

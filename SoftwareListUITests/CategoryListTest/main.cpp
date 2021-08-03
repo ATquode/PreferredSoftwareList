@@ -2,72 +2,55 @@
 //
 // SPDX-License-Identifier: MIT
 
+#include "UITestServer.h"
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <Spix/QtQmlBot.h>
 
-#include <atomic>
-#include <gtest/gtest.h>
-
-class UITestServer; //TODO: Remove after putting the definition in a new file
-static UITestServer* srv;
-
-class UITestServer : public spix::TestServer {
-public:
-	UITestServer(int _argc, char* _argv[])
-		: argc(_argc)
-		, argv(_argv)
-	{
-	}
-
-	int getResult()
-	{
-		return result.load();
-	}
-
-protected:
-	int argc;
-	char** argv;
-	std::atomic<int> result { 0 };
-
-	void executeTest() override
-	{
-		srv = this;
-		::testing::InitGoogleTest(&argc, argv);
-		int testResult = RUN_ALL_TESTS();
-		result.store(testResult);
-	}
-};
-
-TEST(UITest, CategoryListTest)
+TEST(UITest, CategoryListHoverFocusTest)
 {
-	std::string catListPath = "mainWindow/splitView/categoryList";
+	std::string catListPath = "mainWindow/splitView/catList";
 	auto catListItemPath = spix::ItemPath(catListPath);
 	std::string defaultColor = srv->getStringProperty(catListItemPath, "defaultColor");
 	std::string selectedColor = srv->getStringProperty(catListItemPath, "selectedColor");
-	std::string hoverColor = srv->getStringProperty(catListItemPath, "hoverColor");
+	std::string hoverFocusColor = srv->getStringProperty(catListItemPath, "hoverColor");
 
+	// 1st item in Category List should be auto selected
 	std::string item0Color = srv->getStringProperty(spix::ItemPath(catListPath + "/listItem_0"), "color");
 	EXPECT_EQ(item0Color, selectedColor);
 	// Can't test border color, not even by setting objectName
 
+	// down arrow should focus on the 2nd item in Category List
 	srv->enterKey(catListItemPath, Qt::Key_Down, Qt::NoModifier);
 	srv->wait(std::chrono::milliseconds(500));
 	std::string item1Color = srv->getStringProperty(spix::ItemPath(catListPath + "/listItem_1"), "color");
-	EXPECT_EQ(item1Color, hoverColor);
+	EXPECT_EQ(item1Color, hoverFocusColor);
+	// 1st item should still retain selected color
+	item0Color = srv->getStringProperty(spix::ItemPath(catListPath + "/listItem_0"), "color");
+	EXPECT_EQ(item0Color, selectedColor);
 
+	// non-selected, non-focused item should have default color
+	std::string item2Color = srv->getStringProperty(spix::ItemPath(catListPath + "/listItem_2"), "color");
+	EXPECT_EQ(item2Color, defaultColor);
+
+	// pressing return should select the focused item
 	srv->enterKey(catListItemPath, Qt::Key_Return, Qt::NoModifier);
 	srv->wait(std::chrono::milliseconds(500));
 	item1Color = srv->getStringProperty(spix::ItemPath(catListPath + "/listItem_1"), "color");
 	EXPECT_EQ(item1Color, selectedColor);
+	item0Color = srv->getStringProperty(spix::ItemPath(catListPath + "/listItem_0"), "color");
+	EXPECT_EQ(item0Color, defaultColor);
 
-	std::string item2Color = srv->getStringProperty(spix::ItemPath(catListPath + "/listItem_2"), "color");
-	EXPECT_EQ(item2Color, defaultColor);
-
+	// mouse click will select item
 	srv->mouseClick(spix::ItemPath(catListPath + "/listItem_2"));
 	srv->wait(std::chrono::milliseconds(500));
 	item2Color = srv->getStringProperty(spix::ItemPath(catListPath + "/listItem_2"), "color");
 	EXPECT_EQ(item2Color, selectedColor);
+	item1Color = srv->getStringProperty(spix::ItemPath(catListPath + "/listItem_1"), "color");
+	EXPECT_EQ(item1Color, defaultColor);
+
+	// mouse hovered on selected, arrow up to focus previous item, and select by press return should change the hovered item to unselected
 
 	srv->quit();
 }

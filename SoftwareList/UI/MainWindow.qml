@@ -18,7 +18,6 @@ ApplicationWindow {
 
 		CategoryList {
 			id: catList
-			objectName: "categoryList"
 			SplitView.preferredWidth: parent.width / 5
 			KeyNavigation.right: softList
 			activeFocusOnTab: true

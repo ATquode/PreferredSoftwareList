@@ -8,20 +8,20 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # cmake-format: off
 add_executable(
-	CategoryListUITest
+	SWListFocusVisibilityTest
 	main.cpp
 	../UITestServer.h
 	../../SoftwareList/qml.qrc
 )
 # cmake-format: on
-add_test(NAME CategoryListHoverFocus COMMAND CategoryListUITest)
+add_test(NAME SoftwareListFocusVisibility COMMAND SWListFocusVisibilityTest)
 target_compile_definitions(
-	CategoryListUITest
+	SWListFocusVisibilityTest
 	PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
 )
 # cmake-format: off
 target_link_libraries(
-	CategoryListUITest
+	SWListFocusVisibilityTest
 	PRIVATE
 		Qt5::Core
 		Qt5::Quick
