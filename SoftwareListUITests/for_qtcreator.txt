@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
+In case of manual building of dependencies,
+
 Modify CMAKE_PREFIX_PATH, add CMAKE_MODULE_PATH
 
 i.e.,

@@ -25,7 +25,7 @@ target_link_libraries(
 	PRIVATE
 		Qt5::Core
 		Qt5::Quick
-		GTest::GTest
-		Spix::Spix
+		gtest
+		Spix
 )
 # cmake-format: on

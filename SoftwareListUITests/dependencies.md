@@ -4,6 +4,9 @@ SPDX-FileCopyrightText: 2021 Rifat Hasan <atunutemp1@gmail.com>
 SPDX-License-Identifier: CC0-1.0
 -->
 
+Dependencies should be automatically downloaded and configured during cmake configuration,
+thanks to [CPM](https://github.com/cpm-cmake/CPM.cmake), but they can be manually configured too, if needed or preferred, using the following commands.
+
 # googletest
 https://github.com/google/googletest
 
