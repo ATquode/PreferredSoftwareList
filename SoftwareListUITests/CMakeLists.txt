@@ -21,7 +21,6 @@ if(MSVC)
 	list(APPEND GTEST_OPTIONS "gtest_force_shared_crt ON")
 endif()
 
-# cmake-format: off
 CPMFindPackage(
 	NAME GTest
 	GITHUB_REPOSITORY google/googletest
@@ -40,9 +39,7 @@ CPMFindPackage(
 )
 # rest of the hacks are in cmake/modules/FindAnyRPC.cmake
 target_include_directories(
-	anyrpc
-	PUBLIC
-		$<BUILD_INTERFACE:${AnyRPC_SOURCE_DIR}/include>
+	anyrpc PUBLIC $<BUILD_INTERFACE:${AnyRPC_SOURCE_DIR}/include>
 )
 
 CPMFindPackage(
@@ -51,7 +48,6 @@ CPMFindPackage(
 	GIT_TAG 453e849145dee803f61c23b606448dc14177243a
 	OPTIONS "SPIX_BUILD_EXAMPLES OFF"
 )
-# cmake-format: on
 
 include_directories(.)
 

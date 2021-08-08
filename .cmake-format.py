@@ -32,6 +32,40 @@ with section("parse"):
 				'flags': ['VERBOSE'],
 				'nargs': '1+'
 			}
+		},
+		'cpmfindpackage': {
+			'pargs': {
+				'nargs': '*',
+				'flags': []
+			},
+			'spelling': 'CPMFindPackage',
+			'kwargs': {
+				'NAME': 1,
+				'FORCE': 1,
+				'VERSION': 1,
+				'GIT_TAG': 1,
+				'DOWNLOAD_ONLY': 1,
+				'GITHUB_REPOSITORY': 1,
+				'GITLAB_REPOSITORY': 1,
+				'GIT_REPOSITORY': 1,
+				'SVN_REPOSITORY': 1,
+				'SVN_REVISION': 1,
+				'SOURCE_DIR': 1,
+				'DOWNLOAD_COMMAND': 1,
+				'FIND_PACKAGE_ARGUMENTS': 1,
+				'NO_CACHE': 1,
+				'GIT_SHALLOW': 1,
+				'URL': 1,
+				'URL_HASH': 1,
+				'URL_MD5': 1,
+				'DOWNLOAD_NAME': 1,
+				'DOWNLOAD_NO_EXTRACT': 1,
+				'HTTP_USERNAME': 1,
+				'HTTP_PASSWORD': 1,
+				'EXCLUDE_FROM_ALL': 1,
+				'SOURCE_SUBDIR': 1,
+				'OPTIONS': '+'
+			}
 		}
 	}
 
@@ -59,6 +93,19 @@ with section("format"):
 	# If a statement is wrapped to more than one line, than dangle the closing
 	# parenthesis on its own line.
 	dangle_parens = True
+
+	# If the statement spelling length (including space and parenthesis) is larger
+	# than the tab width by more than this amount, then force reject un-nested
+	# layouts.
+	max_prefix_chars = 3
+
+	# If a candidate layout is wrapped horizontally but it exceeds this many
+	# lines, then reject the layout.
+	max_lines_hwrap = 0
+
+	# If true, the parsers may infer whether or not an argument list is sortable
+	# (without annotation).
+	autosort = True
 
 # ------------------------------------------------
 # Options affecting comment reflow and formatting.

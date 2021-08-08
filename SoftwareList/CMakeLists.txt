@@ -12,7 +12,6 @@ project(
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
@@ -63,14 +62,11 @@ target_compile_definitions(
 	SoftwareList
 	PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
 )
-# cmake-format: off
+
 target_link_libraries(
 	SoftwareList
-	PRIVATE
-		Qt${QT_VERSION_MAJOR}::Core
-		Qt${QT_VERSION_MAJOR}::Quick
+	PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
 )
-# cmake-format: on
 
 set_target_properties(
 	SoftwareList
