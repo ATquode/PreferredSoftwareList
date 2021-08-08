@@ -5,6 +5,8 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include "Model/ModelProvider.h"
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
@@ -14,7 +16,10 @@ public:
 	explicit Application(QGuiApplication& app, QObject* parent = nullptr);
 
 private:
+	void loadQml(QQmlApplicationEngine& engine, QGuiApplication& app);
+
 	QQmlApplicationEngine engine;
+	ModelProvider modelProvider;
 };
 
 #endif // APPLICATION_H

@@ -4,6 +4,8 @@
 
 import QtQuick.Layouts 1.15
 
+import SWList.CategoryModel 1.0
+
 StackLayout {
 	anchors.fill: parent
 
@@ -12,8 +14,7 @@ StackLayout {
 		selectedIndex: -1
 		currentIndex: -1
 		isMobile: true
-		model: ['Category 1', 'Category 2', 'Category 3']
-
+		model: CatModel
 		onItemSelected: currentIndex = -1;
 	}
 

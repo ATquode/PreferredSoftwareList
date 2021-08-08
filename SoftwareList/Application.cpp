@@ -2,12 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-#include <QQmlFileSelector>
-
 #include "Application.h"
+
+#include <QQmlFileSelector>
 
 Application::Application(QGuiApplication& app, QObject* parent)
 	: QObject(parent)
+{
+	qmlRegisterSingletonInstance("SWList.CategoryModel", 1, 0, "CatModel", &modelProvider.categoryModel);
+	loadQml(engine, app);
+}
+
+void Application::loadQml(QQmlApplicationEngine& engine, QGuiApplication& app)
 {
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
 	QQmlFileSelector* selector = QQmlFileSelector::get(&engine);

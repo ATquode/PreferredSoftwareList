@@ -36,7 +36,7 @@ ListView {
 			clip: true
 
 			required property int index
-			required property string modelData
+			required property string display
 
 			property bool isSelected: selectedIndex === catItemRect.index
 			property bool isHovered: catItemHoverHandler.hovered || catItemRect.activeFocus //consider currentItem as hovered too, for keyboard navigation
@@ -45,7 +45,7 @@ ListView {
 				anchors.fill: parent
 
 				Label {
-					text: modelData
+					text: qsTr(display)
 					Layout.fillWidth: true
 					leftPadding: 10
 				}

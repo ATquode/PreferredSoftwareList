@@ -5,6 +5,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import SWList.CategoryModel 1.0
+
 ApplicationWindow {
 	objectName: "mainWindow"
 	width: 640
@@ -21,7 +23,7 @@ ApplicationWindow {
 			SplitView.preferredWidth: parent.width / 5
 			KeyNavigation.right: softList
 			activeFocusOnTab: true
-			model: ['Category 1', 'Category 2', 'Category 3']
+			model: CatModel
 			onItemSelected: {
 				selectedIndex = index;
 				currentIndex = index;

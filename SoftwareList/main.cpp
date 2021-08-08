@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-#include <QGuiApplication>
-
 #include "Application.h"
+
+#include <QGuiApplication>
 
 int main(int argc, char* argv[])
 {
