@@ -4,8 +4,6 @@
 
 import QtQuick.Layouts 1.15
 
-import SWList.CategoryModel 1.0
-
 StackLayout {
 	anchors.fill: parent
 
@@ -14,11 +12,15 @@ StackLayout {
 		selectedIndex: -1
 		currentIndex: -1
 		isMobile: true
-		model: CatModel
+		model: moduleLoader.catModel
 		onItemSelected: currentIndex = -1;
 	}
 
 	SoftwareList {
 		activeFocusOnTab: true
+	}
+	
+	SWListLoader {
+		id: moduleLoader
 	}
 }

@@ -12,5 +12,9 @@ SPDX-License-Identifier: CC0-1.0
         <file>UI/+mobile/MainWindow.qml</file>
         <file>UI/SWLTabBar.qml</file>
         <file>UI/SWLTabStack.qml</file>
+        <file>UI/SWListModuleImport.qml</file>
+        <file>UI/SWListLoader.qml</file>
+        <file>UI/dummy/CatModelList.qml</file>
+        <file>UI/dummy/SoftModelList.qml</file>
     </qresource>
 </RCC>

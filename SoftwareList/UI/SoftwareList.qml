@@ -6,10 +6,13 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import "dummy"
+
 ListView {
 	reuseItems: true
 	spacing: 10
 	keyNavigationWraps: true
+	model: SoftModelList {}
 
 	property color defaultColor: "#EEEEEE"
 	property color focusedColor: "#84FFB3"
@@ -24,7 +27,9 @@ ListView {
 			color: swItemRect.activeFocus ? focusedColor : defaultColor
 
 			required property int index
-			required property var modelData
+			required property string name
+			required property var categories
+			required property var platforms
 
 			Item {
 				height: childrenRect.height
@@ -39,23 +44,23 @@ ListView {
 
 				ColumnLayout {
 					Text {
-						text: qsTr(modelData.name)
+						text: qsTr(name)
 					}
 
 					RowLayout {
 						Repeater {
-							model: modelData.categories
+							model: categories
 							Text {
-								text: qsTr(modelData)
+								text: qsTr(display)
 							}
 						}
 					}
 
 					RowLayout {
 						Repeater {
-							model: modelData.platforms
+							model: platforms
 							Text {
-								text: qsTr(modelData)
+								text: qsTr(display)
 							}
 						}
 					}
@@ -66,27 +71,4 @@ ListView {
 
 	delegate: softListDelegate
 	ScrollBar.vertical: ScrollBar {}
-
-	model: [
-		{
-			"name" : "Software 1",
-			"categories": ["Category 1"],
-			"platforms": ["Windows"]
-		},
-		{
-			"name" : "Software 2",
-			"categories": ["Category 1"],
-			"platforms": ["macOS"]
-		},
-		{
-			"name" : "Software 3",
-			"categories": ["Category 2"],
-			"platforms": ["Linux"]
-		},
-		{
-			"name" : "Software 4",
-			"categories": ["Category 2"],
-			"platforms": ["android", "iOS"]
-		}
-	]
 }
