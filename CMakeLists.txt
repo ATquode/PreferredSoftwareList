@@ -18,6 +18,7 @@ if(NOT ANDROID
 	AND NOT IOS
 	AND PSWLIST_BUILD_TESTS
 )
+	add_subdirectory(SoftwareListTests)
 	add_subdirectory(SoftwareListUITests)
 endif()
 
