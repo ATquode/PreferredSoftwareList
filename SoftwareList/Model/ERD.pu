@@ -1,0 +1,60 @@
+@startuml ER Diagram
+
+' skinparam Linetype ortho
+
+' Zero or One |o--
+' Exactly One ||--
+' Zero or Many }o--
+' One or Many }|--
+
+entity Software {
+	* ID : Integer (PK)
+	--
+	* Name : Text
+	Limitation : Text
+	URL : Text
+	Notes : Text
+}
+
+entity Category {
+	* ID : Integer (PK)
+	--
+	* Name : Text
+}
+
+entity Platform {
+	* ID : Integer (PK)
+	--
+	* Name : Text
+}
+
+entity Role {
+	* ID : Integer (PK)
+	--
+	* Name : Text
+	* Description : Text
+}
+
+entity Requirement {
+	* ID : Integer (PK)
+	--
+	* Name : Text
+}
+' can be normalized
+entity CatPlatSoftRole {
+	* Category_ID : Integer (PK, FK)
+	* Platform_ID : Integer (PK, FK)
+	* Software_ID : Integer (PK, FK)
+	* Role_ID : Integer (PK, FK)
+}
+
+Software }|--|{ Category
+Software }o--|{ Platform
+Software ||--|{ CatPlatSoftRole
+Category ||--|{ CatPlatSoftRole
+Platform ||--|{ CatPlatSoftRole
+Role ||--o{ CatPlatSoftRole
+Category ||--o{ Requirement
+Software }o--o{ Requirement
+
+@enduml
