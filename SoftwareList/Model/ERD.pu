@@ -52,11 +52,11 @@ entity CatPlatSoftRole {
 	* Role_ID : Integer (PK, FK)
 }
 
-Software }|--|{ Category
+Software }o--|{ Category
 Software }o--|{ Platform
 Software ||--|{ CatPlatSoftRole
-Category ||--|{ CatPlatSoftRole
-Platform ||--|{ CatPlatSoftRole
+Category ||--o{ CatPlatSoftRole
+Platform ||--o{ CatPlatSoftRole
 PreferenceRole ||--o{ CatPlatSoftRole
 Category ||--o{ Requirement
 Software }o--o{ Requirement

@@ -14,11 +14,9 @@ CategoryModel::CategoryModel(QObject* parent)
 	list << "Category 1"
 		 << "Category 2";
 	setStringList(list);
-
-	connect(this, &CategoryModel::categoryAdded, this, &CategoryModel::onCategoryAdd);
 }
 
-void CategoryModel::onCategoryAdd(QString category)
+void CategoryModel::addCategory(QString category)
 {
 	if (insertRow(rowCount())) {
 		QModelIndex idx = index(rowCount() - 1);
