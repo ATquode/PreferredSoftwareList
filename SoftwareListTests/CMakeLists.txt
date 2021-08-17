@@ -34,7 +34,11 @@ CPMFindPackage(
 	OPTIONS ${GTEST_OPTIONS}
 )
 
-set(TEST_SOURCES ../SoftwareList/Model/CategoryModel.cpp Category/CategoryTests.cpp unittest_main.cpp)
+set(TEST_SOURCES
+	../SoftwareList/Model/CategoryModel.cpp
+	Category/CategoryTests.cpp
+	unittest_main.cpp
+)
 
 add_executable(SWListUnitTest ${TEST_SOURCES})
 
