@@ -30,6 +30,9 @@ ListView {
 			required property string name
 			required property var categories
 			required property var platforms
+			required property string limitation
+			required property url url
+			required property string notes
 
 			Item {
 				height: childrenRect.height
@@ -51,7 +54,7 @@ ListView {
 						Repeater {
 							model: categories
 							Text {
-								text: qsTr(display)
+								text: qsTr(modelData)
 							}
 						}
 					}
@@ -60,9 +63,24 @@ ListView {
 						Repeater {
 							model: platforms
 							Text {
-								text: qsTr(display)
+								text: qsTr(modelData)
 							}
 						}
+					}
+					
+					Text {
+						visible: limitation ? true : false
+						text: qsTr(limitation)
+					}
+					
+					Text {
+						visible: url.toString() ? true : false
+						text: qsTr(url.toString())
+					}
+					
+					Text {
+						visible: notes ? true : false
+						text: qsTr(notes)
 					}
 				}
 			}

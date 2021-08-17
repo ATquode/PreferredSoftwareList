@@ -9,8 +9,13 @@ import "dummy"
 Loader {
 	source: "SWListModuleImport.qml"
 	property var catModel: item != null ? item.catModel : catModelList
+	property var softModel: item != null ? item.softModel : softModelList
 	
 	CatModelList {
 		id: catModelList
+	}
+	
+	SoftModelList {
+		id: softModelList
 	}
 }

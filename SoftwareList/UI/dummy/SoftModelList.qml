@@ -9,55 +9,67 @@ ListModel {
 		name: "Software 1"
 		categories: [
 			ListElement {
-				display: "Category 1"
+				modelData: "Category 1"
 			}
 		]
 		platforms: [
 			ListElement {
-				display: "Windows"
+				modelData: "Windows"
 			}
 		]
+		limitation: ""
+		url: ""
+		notes: ""
 	}
 	ListElement {
 		name: "Software 2"
 		categories: [
 			ListElement {
-				display: "Category 1"
+				modelData: "Category 1"
 			}
 		]
 		platforms: [
 			ListElement {
-				display: "macOS"
+				modelData: "macOS"
 			}
 		]
+		limitation: ""
+		url: ""
+		notes: ""
 	}
 	ListElement {
 		name: "Software 3"
 		categories: [
 			ListElement {
-				display: "Category 2"
+				modelData: "Category 2"
 			}
 		]
 		platforms: [
 			ListElement {
-				display: "Linux"
+				modelData: "Linux"
 			}
 		]
+		limitation: ""
+		url: ""
+		notes: ""
 	}
 	ListElement {
 		name: "Software 4"
 		categories: [
 			ListElement {
-				display: "Category 2"
+				modelData: "Category 2"
 			}
 		]
 		platforms: [
 			ListElement {
-				display: "android"
+				modelData: "android"
 			},
 			ListElement {
-				display: "iOS"
+				modelData: "iOS"
 			}
 		]
+		limitation: ""
+		url: ""
+		notes: ""
 	}
 }

@@ -18,6 +18,7 @@ StackLayout {
 
 	SoftwareList {
 		activeFocusOnTab: true
+		model: moduleLoader.softModel
 	}
 	
 	SWListLoader {

@@ -6,11 +6,13 @@
 #define MODELPROVIDER_H
 
 #include "Model/CategoryModel.h"
+#include "Model/SoftwareItemModel.h"
 
 class ModelProvider : public QObject {
 public:
 	explicit ModelProvider(QObject* parent = nullptr);
 
+	SoftwareItemModel softModel;
 	CategoryModel categoryModel;
 };
 

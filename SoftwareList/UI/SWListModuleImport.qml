@@ -5,7 +5,9 @@
 import QtQuick 2.15
 
 import SWList.CategoryModel 1.0
+import SWList.SoftwareModel 1.0
 
 Item {
 	property var catModel: CatModel
+	property var softModel: SoftModel
 }

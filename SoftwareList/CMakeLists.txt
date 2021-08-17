@@ -49,10 +49,19 @@ set(PROJECT_SOURCES
 	main.cpp
 	Model/CategoryModel.cpp
 	Model/ModelProvider.cpp
+	Model/SoftwareItem.cpp
+	Model/SoftwareItemModel.cpp
 	qml.qrc
 )
 
-set(PROJECT_HEADERS Application.h Model/CategoryModel.h Model/ModelProvider.h)
+set(PROJECT_HEADERS
+	Application.h
+	Model/CategoryModel.h
+	Model/ModelProvider.h
+	Model/SoftwareItem.h
+	Model/SoftwareItemModel.h
+	Model/SWItemRole.h
+)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 	qt_add_executable(SoftwareList MANUAL_FINALIZATION ${PROJECT_SOURCES})

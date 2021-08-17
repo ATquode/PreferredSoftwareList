@@ -36,7 +36,10 @@ CPMFindPackage(
 
 set(TEST_SOURCES
 	../SoftwareList/Model/CategoryModel.cpp
+	../SoftwareList/Model/SoftwareItem.cpp
+	../SoftwareList/Model/SoftwareItemModel.cpp
 	Category/CategoryTests.cpp
+	SoftwareItem/SoftwareModelTests.cpp
 	unittest_main.cpp
 )
 

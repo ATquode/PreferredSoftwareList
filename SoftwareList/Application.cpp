@@ -10,6 +10,7 @@ Application::Application(QGuiApplication& app, QObject* parent)
 	: QObject(parent)
 {
 	qmlRegisterSingletonInstance("SWList.CategoryModel", 1, 0, "CatModel", &modelProvider.categoryModel);
+	qmlRegisterSingletonInstance("SWList.SoftwareModel", 1, 0, "SoftModel", &modelProvider.softModel);
 	loadQml(engine, app);
 }
 

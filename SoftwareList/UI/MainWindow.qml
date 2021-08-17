@@ -37,6 +37,7 @@ ApplicationWindow {
 			id: softList
 			KeyNavigation.left: catList
 			activeFocusOnTab: true
+			model: moduleLoader.softModel
 		}
 	}
 }
