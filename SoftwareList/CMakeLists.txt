@@ -35,17 +35,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(
 	QT NAMES Qt6 Qt5
-	COMPONENTS Core Quick
+	COMPONENTS Core Quick Sql
 	REQUIRED
 )
 find_package(
 	Qt${QT_VERSION_MAJOR}
-	COMPONENTS Core Quick
+	COMPONENTS Core Quick Sql
 	REQUIRED
 )
 
 set(PROJECT_SOURCES
 	Application.cpp
+	DB/DBManager.cpp
 	main.cpp
 	Model/CategoryModel.cpp
 	Model/ModelProvider.cpp
@@ -56,6 +57,7 @@ set(PROJECT_SOURCES
 
 set(PROJECT_HEADERS
 	Application.h
+	DB/DBManager.h
 	Model/CategoryModel.h
 	Model/ModelProvider.h
 	Model/SoftwareItem.h
@@ -80,7 +82,10 @@ target_compile_definitions(
 
 target_link_libraries(
 	SoftwareList
-	PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
+	PRIVATE
+		Qt${QT_VERSION_MAJOR}::Core
+		Qt${QT_VERSION_MAJOR}::Quick
+		Qt${QT_VERSION_MAJOR}::Sql
 )
 
 set_target_properties(

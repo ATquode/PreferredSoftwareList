@@ -18,7 +18,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(
 	Qt5
-	COMPONENTS Core
+	COMPONENTS Core Sql
 	REQUIRED
 )
 
@@ -35,6 +35,7 @@ CPMFindPackage(
 )
 
 set(TEST_SOURCES
+	../SoftwareList/DB/DBManager.cpp
 	../SoftwareList/Model/CategoryModel.cpp
 	../SoftwareList/Model/SoftwareItem.cpp
 	../SoftwareList/Model/SoftwareItemModel.cpp
@@ -52,4 +53,4 @@ target_compile_definitions(
 )
 
 target_include_directories(SWListUnitTest PRIVATE ../SoftwareList)
-target_link_libraries(SWListUnitTest PRIVATE Qt5::Core gtest)
+target_link_libraries(SWListUnitTest PRIVATE Qt5::Core Qt5::Sql gtest)

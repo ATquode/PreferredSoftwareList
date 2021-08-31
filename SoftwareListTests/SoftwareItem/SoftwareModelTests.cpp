@@ -8,7 +8,7 @@
 
 TEST(UnitTest, AddSoftwareItem)
 {
-	SoftwareItemModel softModel;
+	SoftwareItemModel softModel(nullptr);
 	QString swName("dummy soft");
 	SoftwareItem item(swName, QStringList(""), QStringList(""), "", QUrl(), "");
 	softModel.addItem(item);

@@ -4,9 +4,10 @@
 
 #include "SoftwareItemModel.h"
 
-SoftwareItemModel::SoftwareItemModel(QObject* parent)
+SoftwareItemModel::SoftwareItemModel(DBManager* dbManager, QObject* parent)
 	: QAbstractListModel(parent)
 {
+	this->dbManager = dbManager;
 	SoftwareItem item1("Software 1", QStringList("Category 1"), QStringList("Windows"), "limitation 1", QUrl(), "");
 	SoftwareItem item2("Software 2", QStringList("Category 1"), QStringList({ "macOS", "iOS" }), "limitation 2", QUrl(), "note 2");
 	SoftwareItem item3("Software 3", QStringList("Category 2"), QStringList("Linux"), "", QUrl(), "");

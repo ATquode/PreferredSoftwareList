@@ -8,7 +8,7 @@
 
 TEST(UnitTest, AddCategory)
 {
-	CategoryModel categoryModel;
+	CategoryModel categoryModel(nullptr);
 	QString categoryName("Category dummy");
 	categoryModel.addCategory(categoryName);
 	QStringList categoryList = categoryModel.stringList();

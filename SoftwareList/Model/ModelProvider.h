@@ -10,7 +10,7 @@
 
 class ModelProvider : public QObject {
 public:
-	explicit ModelProvider(QObject* parent = nullptr);
+	explicit ModelProvider(DBManager* dbManager, QObject* parent = nullptr);
 
 	SoftwareItemModel softModel;
 	CategoryModel categoryModel;

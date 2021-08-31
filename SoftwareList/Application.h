@@ -19,6 +19,7 @@ private:
 	void loadQml(QQmlApplicationEngine& engine, QGuiApplication& app);
 
 	QQmlApplicationEngine engine;
+	DBManager dbManager;
 	ModelProvider modelProvider;
 };
 

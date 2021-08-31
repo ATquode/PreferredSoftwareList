@@ -8,6 +8,7 @@
 
 Application::Application(QGuiApplication& app, QObject* parent)
 	: QObject(parent)
+	, modelProvider(&dbManager)
 {
 	qmlRegisterSingletonInstance("SWList.CategoryModel", 1, 0, "CatModel", &modelProvider.categoryModel);
 	qmlRegisterSingletonInstance("SWList.SoftwareModel", 1, 0, "SoftModel", &modelProvider.softModel);

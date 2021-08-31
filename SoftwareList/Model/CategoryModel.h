@@ -5,12 +5,17 @@
 #ifndef CATEGORYMODEL_H
 #define CATEGORYMODEL_H
 
+#include "DB/DBManager.h"
+
 #include <QStringListModel>
 
 class CategoryModel : public QStringListModel {
 public:
-	CategoryModel(QObject* parent = nullptr);
+	explicit CategoryModel(DBManager* dbManager, QObject* parent = nullptr);
 	void addCategory(QString category);
+
+private:
+	DBManager* dbManager;
 };
 
 #endif // CATEGORYMODEL_H

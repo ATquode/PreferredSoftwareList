@@ -5,6 +5,7 @@
 #ifndef SOFTWAREITEMMODEL_H
 #define SOFTWAREITEMMODEL_H
 
+#include "DB/DBManager.h"
 #include "Model/SWItemRole.h"
 #include "Model/SoftwareItem.h"
 
@@ -12,7 +13,7 @@
 
 class SoftwareItemModel : public QAbstractListModel {
 public:
-	explicit SoftwareItemModel(QObject* parent = nullptr);
+	explicit SoftwareItemModel(DBManager* dbManager, QObject* parent = nullptr);
 	void addItem(const SoftwareItem& item);
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -22,6 +23,7 @@ protected:
 
 private:
 	QList<SoftwareItem> items;
+	DBManager* dbManager;
 
 	const QHash<int, QByteArray> roles = {
 		{ SWItemRole::NameRole, "name" },
