@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: MIT
 
+# C0103: naming convention. Doesn't apply in this case,
+# since <package>_FOUND's <package> can have any case,
+# and the case is preserved.
+# cmake-lint: disable=C0103
 set(AnyRPC_FOUND TRUE)
 
 # hacks

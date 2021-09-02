@@ -116,3 +116,12 @@ with section("markup"):
 	# listfile. Use this to preserve formatting of your copyright/license
 	# statements.
 	first_comment_is_literal = True
+
+# ----------------------------
+# Options affecting the linter
+# ----------------------------
+with section("lint"):
+
+	# a list of lint codes to disable
+	# C0301: line-length. Formatter's job.
+	disabled_codes = ['C0301']
