@@ -22,9 +22,11 @@ ApplicationWindow {
 		Page {
 			footer: SWLTabBar {
 				id: tabBar
+				currentIndex: tabSet.currentIndex
 			}
 
-			SWLTabStack {
+			SWLTabSet {
+				id: tabSet
 				currentIndex: tabBar.currentIndex
 			}
 		}

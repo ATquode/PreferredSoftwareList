@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import QtQuick.Layouts 1.15
+import QtQuick.Controls 2.15
 
-StackLayout {
+SwipeView {
 	anchors.fill: parent
+	
+	property SWListLoader moduleLoader: SWListLoader{}
 
 	CategoryList {
 		activeFocusOnTab: true
@@ -19,9 +21,5 @@ StackLayout {
 	SoftwareList {
 		activeFocusOnTab: true
 		model: moduleLoader.softModel
-	}
-	
-	SWListLoader {
-		id: moduleLoader
 	}
 }
