@@ -9,10 +9,10 @@
 
 #include <QStringListModel>
 
-class CategoryModel : public QStringListModel {
+class CategoryListModel : public QStringListModel {
 public:
-	explicit CategoryModel(DBManager* dbManager, QObject* parent = nullptr);
-	void addCategory(QString category);
+	explicit CategoryListModel(DBManager* dbManager, QObject* parent = nullptr);
+	void addCategory(QString category, QStringList requirements);
 
 private:
 	DBManager* dbManager;

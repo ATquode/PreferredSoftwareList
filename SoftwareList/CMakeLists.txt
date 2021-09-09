@@ -48,7 +48,8 @@ set(PROJECT_SOURCES
 	Application.cpp
 	DB/DBManager.cpp
 	main.cpp
-	Model/CategoryModel.cpp
+	Model/Category.cpp
+	Model/CategoryListModel.cpp
 	Model/ModelProvider.cpp
 	Model/SoftwareItem.cpp
 	Model/SoftwareItemModel.cpp
@@ -58,7 +59,8 @@ set(PROJECT_SOURCES
 set(PROJECT_HEADERS
 	Application.h
 	DB/DBManager.h
-	Model/CategoryModel.h
+	Model/Category.h
+	Model/CategoryListModel.h
 	Model/ModelProvider.h
 	Model/SoftwareItem.h
 	Model/SoftwareItemModel.h

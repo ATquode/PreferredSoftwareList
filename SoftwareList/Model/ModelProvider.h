@@ -5,7 +5,7 @@
 #ifndef MODELPROVIDER_H
 #define MODELPROVIDER_H
 
-#include "Model/CategoryModel.h"
+#include "Model/CategoryListModel.h"
 #include "Model/SoftwareItemModel.h"
 
 class ModelProvider : public QObject {
@@ -13,7 +13,7 @@ public:
 	explicit ModelProvider(DBManager* dbManager, QObject* parent = nullptr);
 
 	SoftwareItemModel softModel;
-	CategoryModel categoryModel;
+	CategoryListModel categoryModel;
 };
 
 #endif // MODELPROVIDER_H

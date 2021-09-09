@@ -36,7 +36,7 @@ CPMFindPackage(
 
 set(TEST_SOURCES
 	../SoftwareList/DB/DBManager.cpp
-	../SoftwareList/Model/CategoryModel.cpp
+	../SoftwareList/Model/CategoryListModel.cpp
 	../SoftwareList/Model/SoftwareItem.cpp
 	../SoftwareList/Model/SoftwareItemModel.cpp
 	Category/CategoryTests.cpp

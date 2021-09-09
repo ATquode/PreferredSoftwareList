@@ -177,3 +177,11 @@ void DBManager::populateDB()
 							  "If you need this level, your category might be too broad. Consider breaking it up.");
 	}
 }
+
+QVariant DBManager::addRequirement(QString req, int categoryID)
+{
+	insertRequirementQuery.addBindValue(req);
+	insertRequirementQuery.addBindValue(categoryID);
+	insertRequirementQuery.exec();
+	return insertRequirementQuery.lastInsertId();
+}

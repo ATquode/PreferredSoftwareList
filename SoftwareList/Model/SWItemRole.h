@@ -16,7 +16,8 @@ public:
 		PlatformRole,
 		LimitationRole,
 		UrlRole,
-		NotesRole
+		NotesRole,
+		RequirementRole
 	};
 	Q_ENUM(ItemRole);
 

@@ -13,6 +13,7 @@ public:
 	explicit DBManager(QObject* parent = nullptr);
 
 	QVariant addCategory(QString name);
+	QVariant addRequirement(QString req, int categoryID);
 	QVariant addPlatform(QString name);
 	QVariant addRole(QString name, QString description);
 

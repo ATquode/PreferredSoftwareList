@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-#include "CategoryModel.h"
+#include "CategoryListModel.h"
 
-CategoryModel::CategoryModel(DBManager* dbManager, QObject* parent)
+CategoryListModel::CategoryListModel(DBManager* dbManager, QObject* parent)
 	: QStringListModel(parent)
 {
 	this->dbManager = dbManager;
@@ -21,12 +21,27 @@ CategoryModel::CategoryModel(DBManager* dbManager, QObject* parent)
 	setStringList(list);
 }
 
-void CategoryModel::addCategory(QString category)
+void CategoryListModel::addCategory(QString category, QStringList requirements)
 {
 	if (dbManager != nullptr) {
 		QVariant id = dbManager->addCategory(category);
 		if (!id.isValid()) {
+			qCritical() << "Failed to insert Category: " << category;
 			return;
+		}
+		bool ok;
+		int categoryID = id.toInt(&ok);
+		if (!ok) {
+			qCritical() << "Failed to convert Category ID to int for Category: " << category;
+			return;
+		}
+
+		for (const auto& req : qAsConst(requirements)) {
+			id = dbManager->addRequirement(req, categoryID);
+			if (!id.isValid()) {
+				qCritical() << "Failed to insert Requirement: " << req;
+				// TODO: Offer retry for the failed ones, cancel to rollback
+			}
 		}
 	}
 

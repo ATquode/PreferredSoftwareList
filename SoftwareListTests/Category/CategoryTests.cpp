@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-#include "Model/CategoryModel.h"
+#include "Model/CategoryListModel.h"
 
 #include <gtest/gtest.h>
 
 TEST(UnitTest, AddCategory)
 {
-	CategoryModel categoryModel(nullptr);
+	CategoryListModel categoryModel(nullptr);
 	QString categoryName("Category dummy");
-	categoryModel.addCategory(categoryName);
+	categoryModel.addCategory(categoryName, QStringList());
 	QStringList categoryList = categoryModel.stringList();
 	EXPECT_TRUE(categoryList.contains(categoryName));
 }
