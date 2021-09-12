@@ -39,8 +39,10 @@ set(TEST_SOURCES
 	../SoftwareList/Model/CategoryListModel.cpp
 	../SoftwareList/Model/SoftwareItem.cpp
 	../SoftwareList/Model/SoftwareItemModel.cpp
+	../SoftwareList/Model/SoftwareItemProxyModel.cpp
 	Category/CategoryTests.cpp
 	SoftwareItem/SoftwareModelTests.cpp
+	SoftwareItem/SoftwareProxyModelTests.cpp
 	unittest_main.cpp
 )
 

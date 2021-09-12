@@ -53,6 +53,7 @@ set(PROJECT_SOURCES
 	Model/ModelProvider.cpp
 	Model/SoftwareItem.cpp
 	Model/SoftwareItemModel.cpp
+	Model/SoftwareItemProxyModel.cpp
 	qml.qrc
 )
 
@@ -64,6 +65,7 @@ set(PROJECT_HEADERS
 	Model/ModelProvider.h
 	Model/SoftwareItem.h
 	Model/SoftwareItemModel.h
+	Model/SoftwareItemProxyModel.h
 	Model/SWItemRole.h
 )
 
