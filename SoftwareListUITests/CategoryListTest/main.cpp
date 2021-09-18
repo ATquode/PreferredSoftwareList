@@ -4,6 +4,9 @@
 
 #include "UITestServer.h"
 
+#include "Model/ModelProvider.h"
+#include "Model/SoftwareItemProxyModel.h"
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <Spix/QtQmlBot.h>
@@ -59,11 +62,23 @@ int main(int argc, char* argv[])
 {
 	// Init Qt Qml Application
 	QGuiApplication app(argc, argv);
+
+	// Setup Data
+	ModelProvider modelProvider(nullptr);
+	modelProvider.catModel()->addCategory("Category A", QStringList());
+	modelProvider.catModel()->addCategory("Category B", QStringList());
+	modelProvider.catModel()->addCategory("Category C", QStringList());
+
+	// Setup Qml Engine
 	QQmlApplicationEngine engine;
+	qmlRegisterUncreatableType<SWItemRole>("SWList", 1, 0, "SWItemRole", "Enum wrapper not creatable");
+	qmlRegisterSingletonInstance("SWList", 1, 0, "ModelProvider", &modelProvider);
+	qmlRegisterType<SoftwareItemProxyModel>("SWList", 1, 0, "SoftProxyModel");
 	engine.load(QUrl(QStringLiteral("qrc:/UI/MainWindow.qml")));
 	if (engine.rootObjects().isEmpty())
 		return -1;
 
+	// Init Test Server
 	UITestServer server(argc, argv);
 	auto bot = new spix::QtQmlBot();
 	bot->runTestServer(server);

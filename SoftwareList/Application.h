@@ -16,7 +16,9 @@ public:
 	explicit Application(QGuiApplication& app, QObject* parent = nullptr);
 
 private:
+	void registerCppTypesToQml();
 	void loadQml(QQmlApplicationEngine& engine, QGuiApplication& app);
+	void setupSlots(QObject* rootObj);
 
 	QQmlApplicationEngine engine;
 	DBManager dbManager;

@@ -12,6 +12,7 @@
 #include <QAbstractListModel>
 
 class SoftwareItemModel : public QAbstractListModel {
+	Q_OBJECT
 public:
 	explicit SoftwareItemModel(DBManager* dbManager, QObject* parent = nullptr);
 	void addItem(const SoftwareItem& item);

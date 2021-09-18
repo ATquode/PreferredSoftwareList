@@ -22,7 +22,7 @@ ListView {
 	property color selectedColor: "#00DD55"
 	property color hoverColor: Qt.lighter(selectedColor, 1.75)
 
-	signal itemSelected(int index)
+	signal itemSelected(int index, string category)
 
 	Component {
 		id: catDelegate
@@ -61,14 +61,14 @@ ListView {
 			}
 
 			TapHandler {
-				onTapped: itemSelected(index)
+				onTapped: itemSelected(index, display)
 			}
 
 			Keys.onPressed: {
 				switch(event.key) {
 				case Qt.Key_Space:
 				case Qt.Key_Return:
-					itemSelected(index);
+					itemSelected(index, display);
 					event.accepted = true;
 				}
 			}

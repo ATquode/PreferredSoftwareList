@@ -6,7 +6,7 @@
 
 ModelProvider::ModelProvider(DBManager* dbManager, QObject* parent)
 	: QObject(parent)
-	, softModel(dbManager)
 	, categoryModel(dbManager)
+	, softModel(dbManager)
 {
 }

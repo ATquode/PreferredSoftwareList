@@ -8,7 +8,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_executable(
 	SWListFocusVisibilityTest
-	../../SoftwareList/qml.qrc ../UITestServer.h main.cpp
+	${APP_SOURCES} ../../SoftwareList/qml.qrc ../UITestServer.h main.cpp
 )
 
 add_test(NAME SoftwareListFocusVisibility COMMAND SWListFocusVisibilityTest)
@@ -17,6 +17,7 @@ target_compile_definitions(
 	PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
 )
 
+target_include_directories(SWListFocusVisibilityTest PRIVATE ../../SoftwareList)
 target_link_libraries(
-	SWListFocusVisibilityTest PRIVATE Qt5::Core Qt5::Quick gtest Spix
+	SWListFocusVisibilityTest PRIVATE Qt5::Core Qt5::Quick Qt5::Sql gtest Spix
 )

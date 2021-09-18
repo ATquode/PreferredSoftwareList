@@ -6,9 +6,12 @@
 #define SWITEMROLE_H
 
 #include <QObject>
+#include <QtQml>
 
 class SWItemRole {
 	Q_GADGET
+	QML_ELEMENT
+	QML_UNCREATABLE("Enum wrapper not creatable")
 public:
 	enum ItemRole {
 		NameRole = Qt::UserRole + 1,

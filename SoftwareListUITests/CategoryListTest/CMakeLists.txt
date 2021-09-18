@@ -7,7 +7,8 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_executable(
-	CategoryListUITest ../../SoftwareList/qml.qrc ../UITestServer.h main.cpp
+	CategoryListUITest
+	${APP_SOURCES} ../../SoftwareList/qml.qrc ../UITestServer.h main.cpp
 )
 
 add_test(NAME CategoryListHoverFocus COMMAND CategoryListUITest)
@@ -16,6 +17,7 @@ target_compile_definitions(
 	PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
 )
 
+target_include_directories(CategoryListUITest PRIVATE ../../SoftwareList)
 target_link_libraries(
-	CategoryListUITest PRIVATE Qt5::Core Qt5::Quick gtest Spix
+	CategoryListUITest PRIVATE Qt5::Core Qt5::Quick Qt5::Sql gtest Spix
 )

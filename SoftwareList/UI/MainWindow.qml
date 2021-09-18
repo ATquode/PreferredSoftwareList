@@ -5,6 +5,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import SWList 1.0
+
 ApplicationWindow {
 	objectName: "mainWindow"
 	width: 640
@@ -12,9 +14,7 @@ ApplicationWindow {
 	visible: true
 	title: qsTr("SWList")
 	
-	SWListLoader {
-		id: moduleLoader
-	}
+	signal setFilter(int role, string filter)
 
 	SplitView {
 		objectName: "splitView"
@@ -25,11 +25,12 @@ ApplicationWindow {
 			SplitView.preferredWidth: parent.width / 5
 			KeyNavigation.right: softList
 			activeFocusOnTab: true
-			model: moduleLoader.catModel
+			model: ModelProvider.catModel
 			onItemSelected: {
 				selectedIndex = index;
 				currentIndex = index;
 				catList.forceActiveFocus();
+				setFilter(SWItemRole.CategoryRole, category);
 			}
 		}
 
@@ -37,7 +38,9 @@ ApplicationWindow {
 			id: softList
 			KeyNavigation.left: catList
 			activeFocusOnTab: true
-			model: moduleLoader.softModel
+			model: SoftProxyModel {
+				sourceModel: ModelProvider.softSrcModel
+			}
 		}
 	}
 }

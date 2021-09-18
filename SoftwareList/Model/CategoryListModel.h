@@ -10,6 +10,7 @@
 #include <QStringListModel>
 
 class CategoryListModel : public QStringListModel {
+	Q_OBJECT
 public:
 	explicit CategoryListModel(DBManager* dbManager, QObject* parent = nullptr);
 	void addCategory(QString category, QStringList requirements);

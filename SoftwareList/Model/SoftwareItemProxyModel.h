@@ -5,16 +5,25 @@
 #ifndef SOFTWAREITEMPROXYMODEL_H
 #define SOFTWAREITEMPROXYMODEL_H
 
+#include <QQmlParserStatus>
 #include <QSortFilterProxyModel>
+#include <QtQml>
 
-class SoftwareItemProxyModel : public QSortFilterProxyModel {
+class SoftwareItemProxyModel : public QSortFilterProxyModel, public QQmlParserStatus {
 	Q_OBJECT
+	Q_INTERFACES(QQmlParserStatus)
+	Q_PROPERTY(bool ignoreCategoryFilter MEMBER m_ignoreCategoryFilter)
+	QML_NAMED_ELEMENT(SoftProxyModel)
 public:
 	explicit SoftwareItemProxyModel(QObject* parent = nullptr);
+
+	virtual void classBegin() override;
+	virtual void componentComplete() override;
 
 public slots:
 	/**
 	 * @brief Removes any previous filters from the role and sets the specified filter
+	 * @note This does not touch any other roles except the specified one
 	 * @param role The SWItemRole the filter is associated with
 	 * @param filter The filter value. Default is "All" - which is equivalent to no filter.
 	 */
@@ -53,6 +62,7 @@ protected:
 	bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
 
 private:
+	bool m_ignoreCategoryFilter;
 	QHash<int, QStringList> filterPatterns;
 };
 

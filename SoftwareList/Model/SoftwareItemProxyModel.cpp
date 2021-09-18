@@ -6,15 +6,42 @@
 #include "Model/SWItemRole.h"
 
 #include <QDebug>
+#include <QQmlApplicationEngine>
 #include <QUrl>
 
 SoftwareItemProxyModel::SoftwareItemProxyModel(QObject* parent)
 	: QSortFilterProxyModel(parent)
 {
+	m_ignoreCategoryFilter = false;
+}
+
+void SoftwareItemProxyModel::classBegin()
+{
+	QQmlApplicationEngine* engine = qobject_cast<QQmlApplicationEngine*>(qmlEngine(this));
+	if (!engine) {
+		qCritical() << "engine is null";
+		return;
+	}
+
+	auto rootObjs = engine->rootObjects();
+	if (rootObjs.isEmpty()) {
+		return;
+	}
+	QObject* rootObj = rootObjs.constFirst();
+	// clang-format off
+	QObject::connect(rootObj, SIGNAL(setFilter(int,QString)), this, SLOT(setFilter(int,QString)));
+	// clang-format on
+}
+
+void SoftwareItemProxyModel::componentComplete()
+{
 }
 
 void SoftwareItemProxyModel::setFilter(int role, QString filter)
 {
+	if (m_ignoreCategoryFilter && role == SWItemRole::CategoryRole) {
+		return;
+	}
 	if (filter == "All") {
 		filterPatterns.remove(role);
 	} else {

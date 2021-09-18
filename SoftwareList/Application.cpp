@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "Application.h"
+#include "Model/SoftwareItemProxyModel.h"
 
 #include <QQmlFileSelector>
 
@@ -10,9 +11,18 @@ Application::Application(QGuiApplication& app, QObject* parent)
 	: QObject(parent)
 	, modelProvider(&dbManager)
 {
-	qmlRegisterSingletonInstance("SWList.CategoryModel", 1, 0, "CatModel", &modelProvider.categoryModel);
-	qmlRegisterSingletonInstance("SWList.SoftwareModel", 1, 0, "SoftModel", &modelProvider.softModel);
+	registerCppTypesToQml();
 	loadQml(engine, app);
+
+	QObject* rootObj = engine.rootObjects().constFirst();
+	setupSlots(rootObj);
+}
+
+void Application::registerCppTypesToQml()
+{
+	qmlRegisterUncreatableType<SWItemRole>("SWList", 1, 0, "SWItemRole", "Enum wrapper not creatable");
+	qmlRegisterSingletonInstance("SWList", 1, 0, "ModelProvider", &modelProvider);
+	qmlRegisterType<SoftwareItemProxyModel>("SWList", 1, 0, "SoftProxyModel");
 }
 
 void Application::loadQml(QQmlApplicationEngine& engine, QGuiApplication& app)
@@ -30,4 +40,14 @@ void Application::loadQml(QQmlApplicationEngine& engine, QGuiApplication& app)
 		},
 		Qt::QueuedConnection);
 	engine.load(url);
+}
+
+void Application::setupSlots(QObject* rootObj)
+{
+	auto proxyModels = rootObj->findChildren<SoftwareItemProxyModel*>();
+	for (auto proxyModel : qAsConst(proxyModels)) {
+		// clang-format off
+		QObject::connect(rootObj, SIGNAL(setFilter(int,QString)), proxyModel, SLOT(setFilter(int,QString)));
+		// clang-format on
+	}
 }

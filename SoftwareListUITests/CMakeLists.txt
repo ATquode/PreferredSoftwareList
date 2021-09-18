@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(
 	Qt5
-	COMPONENTS Core Quick
+	COMPONENTS Core Quick Sql
 	REQUIRED
 )
 
@@ -50,6 +50,16 @@ CPMFindPackage(
 )
 
 include_directories(.)
+
+set(APP_SOURCES
+	../../SoftwareList/DB/DBManager.cpp
+	../../SoftwareList/Model/CategoryListModel.cpp
+	../../SoftwareList/Model/ModelProvider.cpp
+	../../SoftwareList/Model/SoftwareItem.cpp
+	../../SoftwareList/Model/SoftwareItemModel.cpp
+	../../SoftwareList/Model/SoftwareItemProxyModel.cpp
+	../../SoftwareList/Model/SWItemRole.h
+)
 
 add_subdirectory(CategoryListTest)
 add_subdirectory(SoftwareListFocusTest)

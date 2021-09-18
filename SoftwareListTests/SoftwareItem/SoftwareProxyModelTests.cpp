@@ -21,16 +21,16 @@ TEST(UnitTest, FilterOrCondition)
 	SoftwareItemModel softModel(nullptr);
 	proxyModel.setSourceModel(&softModel);
 
-	QString linux("Linux");
-	QString android("android");
+	QString plat_linux("Linux");
+	QString plat_android("android");
 
-	SoftwareItem item1("Soft1", QStringList(), QStringList(linux), "", QUrl(), "");
+	SoftwareItem item1("Soft1", QStringList(), QStringList(plat_linux), "", QUrl(), "");
 	softModel.addItem(item1);
 	int lastIndex = softModel.rowCount() - 1;
 
-	proxyModel.addFilter(SWItemRole::PlatformRole, android);
+	proxyModel.addFilter(SWItemRole::PlatformRole, plat_android);
 	EXPECT_FALSE(proxyModel.filterAccepts(lastIndex));
-	proxyModel.addFilter(SWItemRole::PlatformRole, linux);
+	proxyModel.addFilter(SWItemRole::PlatformRole, plat_linux);
 	EXPECT_TRUE(proxyModel.filterAccepts(lastIndex)) << "Same role should have OR condition";
 }
 
@@ -41,18 +41,18 @@ TEST(UnitTest, FilterAndCondition)
 	proxyModel.setSourceModel(&softModel);
 
 	QString category1("Category 1");
-	QString linux("Linux");
-	QString windows("Windows");
+	QString plat_linux("Linux");
+	QString plat_windows("Windows");
 
-	SoftwareItem item1("Soft1", QStringList(category1), QStringList(windows), "", QUrl(), "");
+	SoftwareItem item1("Soft1", QStringList(category1), QStringList(plat_windows), "", QUrl(), "");
 	softModel.addItem(item1);
 	int lastIndex = softModel.rowCount() - 1;
 
 	proxyModel.addFilter(SWItemRole::CategoryRole, category1);
-	proxyModel.addFilter(SWItemRole::PlatformRole, linux);
+	proxyModel.addFilter(SWItemRole::PlatformRole, plat_linux);
 	EXPECT_FALSE(proxyModel.filterAccepts(lastIndex)) << "Different roles should have AND condition";
 
-	proxyModel.addFilter(SWItemRole::PlatformRole, windows);
+	proxyModel.addFilter(SWItemRole::PlatformRole, plat_windows);
 	// OR condition activates
 	EXPECT_TRUE(proxyModel.filterAccepts(lastIndex)) << "Same role should have OR condition";
 }
