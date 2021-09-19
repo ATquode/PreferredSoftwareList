@@ -5,6 +5,8 @@
 #ifndef SOFTWAREITEMPROXYMODEL_H
 #define SOFTWAREITEMPROXYMODEL_H
 
+#include "Model/FilterOptionModel.h"
+
 #include <QQmlParserStatus>
 #include <QSortFilterProxyModel>
 #include <QtQml>
@@ -13,9 +15,19 @@ class SoftwareItemProxyModel : public QSortFilterProxyModel, public QQmlParserSt
 	Q_OBJECT
 	Q_INTERFACES(QQmlParserStatus)
 	Q_PROPERTY(bool ignoreCategoryFilter MEMBER m_ignoreCategoryFilter)
+	Q_PROPERTY(FilterOptionModel* filterProvider MEMBER filterProvider WRITE setFilterProvider)
 	QML_NAMED_ELEMENT(SoftProxyModel)
 public:
 	explicit SoftwareItemProxyModel(QObject* parent = nullptr);
+
+	void setFilterProvider(FilterOptionModel* filterProvider)
+	{
+		this->filterProvider = filterProvider;
+#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
+		QObject::connect(this->filterProvider, &FilterOptionModel::filtersSet, this, &SoftwareItemProxyModel::setFilters);
+		this->filterProvider->onApplied(); // Apply existing filters
+#endif /* Q_OS_ANDROID || Q_OS_IOS */
+	}
 
 	virtual void classBegin() override;
 	virtual void componentComplete() override;
@@ -29,10 +41,10 @@ public slots:
 	 */
 	void setFilter(int role, QString filter = "All");
 	/**
-	 * @brief Removes all roles and filters and set the specified values (packed in map)
-	 * @param filters Should be a map<String, StringList>, where key should be role value as string, and value should be the associated filter list.
+	 * @brief Removes all roles and filters and set the specified values
+	 * @param filters A map of filters, in role:filterList structure.
 	 */
-	void setFilters(QVariant filters);
+	void setFilters(QHash<int, QStringList> filters);
 	/**
 	 * @brief Appends filter to the provided role.
 	 * If the role already has other filters, the new one just gets appened to its filter list.
@@ -64,6 +76,9 @@ protected:
 private:
 	bool m_ignoreCategoryFilter;
 	QHash<int, QStringList> filterPatterns;
+	FilterOptionModel* filterProvider;
+
+	QString& removeMnemonicIfExists(QString& filter);
 };
 
 #endif // SOFTWAREITEMPROXYMODEL_H

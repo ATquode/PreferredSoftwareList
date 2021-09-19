@@ -30,6 +30,10 @@ void SoftwareItemProxyModel::classBegin()
 	QObject* rootObj = rootObjs.constFirst();
 	// clang-format off
 	QObject::connect(rootObj, SIGNAL(setFilter(int,QString)), this, SLOT(setFilter(int,QString)));
+#if !defined (Q_OS_ANDROID) && !defined (Q_OS_IOS)
+	QObject::connect(rootObj, SIGNAL(addFilter(int,QString)), this, SLOT(addFilter(int,QString)));
+	QObject::connect(rootObj, SIGNAL(removeFilter(int,QString)), this, SLOT(removeFilter(int,QString)));
+#endif /* NOT Q_OS_ANDROID && NOT Q_OS_IOS */
 	// clang-format on
 }
 
@@ -50,28 +54,18 @@ void SoftwareItemProxyModel::setFilter(int role, QString filter)
 	invalidateFilter();
 }
 
-void SoftwareItemProxyModel::setFilters(QVariant filters)
+void SoftwareItemProxyModel::setFilters(QHash<int, QStringList> filters)
 {
-	QVariantMap filterMap = filters.toMap();
-	QHash<int, QStringList> filterHash;
-	for (auto it = filterMap.keyValueBegin(), end = filterMap.keyValueEnd(); it != end; ++it) {
-		bool ok;
-		int key = it->first.toInt(&ok);
-		if (!ok) {
-			continue;
-		}
-		QStringList value = it->second.toStringList();
-		if (value.isEmpty()) {
-			return;
-		}
-		filterHash[key] = value;
+	if (!m_ignoreCategoryFilter && filterPatterns.contains(SWItemRole::CategoryRole)) {
+		filters[SWItemRole::CategoryRole] = filterPatterns[SWItemRole::CategoryRole];
 	}
-	filterPatterns = filterHash;
+	filterPatterns = filters;
 	invalidateFilter();
 }
 
 void SoftwareItemProxyModel::addFilter(int role, QString filter)
 {
+	filter = removeMnemonicIfExists(filter);
 	if (filterPatterns.contains(role)) {
 		filterPatterns[role].append(filter);
 	} else {
@@ -82,6 +76,7 @@ void SoftwareItemProxyModel::addFilter(int role, QString filter)
 
 void SoftwareItemProxyModel::removeFilter(int role, QString filter)
 {
+	filter = removeMnemonicIfExists(filter);
 	filterPatterns[role].removeAll(filter);
 	if (filterPatterns[role].size() == 0) {
 		filterPatterns.remove(role);
@@ -142,4 +137,13 @@ bool SoftwareItemProxyModel::filterAcceptsRow(int source_row, const QModelIndex&
 		}
 	}
 	return true;
+}
+
+QString& SoftwareItemProxyModel::removeMnemonicIfExists(QString& filter)
+{
+	int index = filter.indexOf('&');
+	if (index == -1 || index == filter.size() - 1 || filter.at(index + 1) == ' ') {
+		return filter;
+	}
+	return filter.remove(index, 1);
 }

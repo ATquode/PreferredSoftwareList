@@ -24,6 +24,13 @@ public:
 	};
 	Q_ENUM(ItemRole);
 
+	enum FilterRole {
+		FilterItemRole = Qt::UserRole + 1,
+		TypeRole,
+		OptionRole
+	};
+	Q_ENUM(FilterRole);
+
 private:
 	explicit SWItemRole() { }
 };

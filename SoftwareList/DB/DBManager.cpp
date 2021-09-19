@@ -78,6 +78,23 @@ QStringList DBManager::getCategoryList()
 	return categories;
 }
 
+QStringList DBManager::getPlatformList()
+{
+	QStringList platforms;
+
+	QLatin1String queryStr(R"(
+		SELECT NAME
+		FROM PLATFORM
+		ORDER BY ID
+	)");
+	QSqlQuery q(queryStr);
+	while (q.next()) {
+		QString name = q.value(0).toString();
+		platforms << name;
+	}
+	return platforms;
+}
+
 QSqlError DBManager::createTables()
 {
 	QSqlQuery q;

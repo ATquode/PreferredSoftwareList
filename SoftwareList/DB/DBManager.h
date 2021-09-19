@@ -18,6 +18,7 @@ public:
 	QVariant addRole(QString name, QString description);
 
 	QStringList getCategoryList();
+	QStringList getPlatformList();
 
 private:
 	const QLatin1String SOFTWARE_TABLE_SQL = QLatin1String(R"(

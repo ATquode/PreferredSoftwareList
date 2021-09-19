@@ -48,6 +48,17 @@ void Application::setupSlots(QObject* rootObj)
 	for (auto proxyModel : qAsConst(proxyModels)) {
 		// clang-format off
 		QObject::connect(rootObj, SIGNAL(setFilter(int,QString)), proxyModel, SLOT(setFilter(int,QString)));
-		// clang-format on
+#if defined (Q_OS_ANDROID) || defined (Q_OS_IOS)
+		QObject::connect(modelProvider.filterOptionsModel(), &FilterOptionModel::filtersSet, proxyModel, &SoftwareItemProxyModel::setFilters);
+#else
+		QObject::connect(rootObj, SIGNAL(addFilter(int,QString)), proxyModel, SLOT(addFilter(int,QString)));
+		QObject::connect(rootObj, SIGNAL(removeFilter(int,QString)), proxyModel, SLOT(removeFilter(int,QString)));
+#endif /* Q_OS_ANDROID || Q_OS_IOS */
 	}
+	
+#if defined (Q_OS_ANDROID) || defined (Q_OS_IOS)
+	QObject::connect(rootObj, SIGNAL(applyFiltering()), modelProvider.filterOptionsModel(), SLOT(onApplied()));
+	QObject::connect(rootObj, SIGNAL(cancelFiltering()), modelProvider.filterOptionsModel(), SLOT(onCancelled()));
+#endif /* Q_OS_ANDROID || Q_OS_IOS */
+	// clang-format on
 }

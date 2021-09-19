@@ -12,6 +12,7 @@ ToolBar {
 	property alias backBtnVisible: backBtn.visible
 	
 	signal backBtnClicked
+	signal filterBtnClicked
 	
 	ToolButton {
 		id: backBtn
@@ -24,5 +25,13 @@ ToolBar {
 	Label {
 		anchors.centerIn: parent
 		text: pageTitle
+	}
+	
+	RowLayout {
+		anchors.right: parent.right
+		ToolButton {
+			text: qsTr("Filter")
+			onClicked: filterBtnClicked()
+		}
 	}
 }

@@ -6,11 +6,14 @@
 #define MODELPROVIDER_H
 
 #include "Model/CategoryListModel.h"
+#include "Model/FilterOptionModel.h"
+#include "Model/PlatformListModel.h"
 #include "Model/SoftwareItemModel.h"
 
 class ModelProvider : public QObject {
 	Q_OBJECT
 	Q_PROPERTY(CategoryListModel* catModel READ catModel CONSTANT)
+	Q_PROPERTY(FilterOptionModel* filterOptionsModel READ filterOptionsModel CONSTANT)
 	Q_PROPERTY(SoftwareItemModel* softSrcModel READ softSrcModel CONSTANT)
 	QML_ELEMENT
 	QML_SINGLETON
@@ -22,6 +25,11 @@ public:
 		return &categoryModel;
 	}
 
+	FilterOptionModel* filterOptionsModel()
+	{
+		return &filterModel;
+	}
+
 	SoftwareItemModel* softSrcModel()
 	{
 		return &softModel;
@@ -29,6 +37,8 @@ public:
 
 private:
 	CategoryListModel categoryModel;
+	PlatformListModel platformModel;
+	FilterOptionModel filterModel;
 	SoftwareItemModel softModel;
 };
 

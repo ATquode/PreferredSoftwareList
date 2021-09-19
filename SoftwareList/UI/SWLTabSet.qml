@@ -39,6 +39,7 @@ SwipeView {
 		SoftwareList {
 			model: SoftProxyModel {
 				sourceModel: ModelProvider.softSrcModel
+				filterProvider: ModelProvider.filterOptionsModel
 			}
 		}
 	}

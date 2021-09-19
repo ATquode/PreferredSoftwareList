@@ -50,7 +50,9 @@ set(PROJECT_SOURCES
 	main.cpp
 	Model/Category.cpp
 	Model/CategoryListModel.cpp
+	Model/FilterOptionModel.cpp
 	Model/ModelProvider.cpp
+	Model/PlatformListModel.cpp
 	Model/SoftwareItem.cpp
 	Model/SoftwareItemModel.cpp
 	Model/SoftwareItemProxyModel.cpp
@@ -62,7 +64,9 @@ set(PROJECT_HEADERS
 	DB/DBManager.h
 	Model/Category.h
 	Model/CategoryListModel.h
+	Model/FilterOptionModel.h
 	Model/ModelProvider.h
+	Model/PlatformListModel.h
 	Model/SoftwareItem.h
 	Model/SoftwareItemModel.h
 	Model/SoftwareItemProxyModel.h

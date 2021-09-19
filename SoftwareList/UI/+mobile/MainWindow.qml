@@ -14,6 +14,8 @@ ApplicationWindow {
 	title: qsTr("SWList")
 	
 	signal setFilter(int role, string filter)
+	signal applyFiltering()
+	signal cancelFiltering()
 	
 	header: SWLToolBar {
 		id: headerToolbar
@@ -26,6 +28,8 @@ ApplicationWindow {
 				pageTitle = title;
 			}
 		}
+		
+		onFilterBtnClicked: filterDialog.open()
 	}
 
 	StackView {
@@ -56,5 +60,15 @@ ApplicationWindow {
 				onCategoryFilterSet: setFilter(SWItemRole.CategoryRole, category)
 			}
 		}
+	}
+	
+	SWLFilterDialog {
+		id: filterDialog
+
+		onApplied: {
+			applyFiltering();
+			close();
+		}
+		onRejected: cancelFiltering()
 	}
 }

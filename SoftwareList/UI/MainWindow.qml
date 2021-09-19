@@ -15,6 +15,19 @@ ApplicationWindow {
 	title: qsTr("SWList")
 	
 	signal setFilter(int role, string filter)
+	signal addFilter(int role, string filter)
+	signal removeFilter(int role, string filter)
+
+	menuBar: SWLMenuBar {
+//	SWLMenuBar{
+		onMenuToggled: {
+			if (isChecked) {
+				addFilter(menuType, menuValue);
+			} else {
+				removeFilter(menuType, menuValue);
+			}
+		}
+	}
 
 	SplitView {
 		objectName: "splitView"

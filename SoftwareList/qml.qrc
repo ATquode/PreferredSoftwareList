@@ -15,5 +15,7 @@ SPDX-License-Identifier: CC0-1.0
         <file>UI/dummy/CatModelList.qml</file>
         <file>UI/dummy/SoftModelList.qml</file>
         <file>UI/SWLToolBar.qml</file>
+        <file>UI/SWLMenuBar.qml</file>
+        <file>UI/SWLFilterDialog.qml</file>
     </qresource>
 </RCC>

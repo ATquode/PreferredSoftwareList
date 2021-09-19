@@ -54,6 +54,8 @@ include_directories(.)
 set(APP_SOURCES
 	../../SoftwareList/DB/DBManager.cpp
 	../../SoftwareList/Model/CategoryListModel.cpp
+	../../SoftwareList/Model/FilterOptionModel.cpp
+	../../SoftwareList/Model/PlatformListModel.cpp
 	../../SoftwareList/Model/ModelProvider.cpp
 	../../SoftwareList/Model/SoftwareItem.cpp
 	../../SoftwareList/Model/SoftwareItemModel.cpp

@@ -7,6 +7,8 @@
 ModelProvider::ModelProvider(DBManager* dbManager, QObject* parent)
 	: QObject(parent)
 	, categoryModel(dbManager)
+	, platformModel(dbManager)
+	, filterModel(platformModel.stringList())
 	, softModel(dbManager)
 {
 }
