@@ -15,7 +15,7 @@ public:
 	QVariant addCategory(QString name);
 	QVariant addRequirement(QString req, int categoryID);
 	QVariant addPlatform(QString name);
-	QVariant addRole(QString name, QString description);
+	QVariant addRole(QString name, QString description, int level);
 
 	QStringList getCategoryList();
 	QStringList getPlatformList();
@@ -49,7 +49,8 @@ private:
 		CREATE TABLE IF NOT EXISTS PREFERENCE_ROLE(
 			ID INTEGER PRIMARY KEY,
 			NAME TEXT NOT NULL,
-			DESCRIPTION TEXT NOT NULL
+			DESCRIPTION TEXT NOT NULL,
+			LEVEL INTEGER NOT NULL
 		)
 	)");
 
@@ -155,8 +156,8 @@ private:
 	)");
 
 	const QLatin1String INSERT_ROLE_SQL = QLatin1String(R"(
-		INSERT INTO PREFERENCE_ROLE (NAME, DESCRIPTION)
-		VALUES(?, ?)
+		INSERT INTO PREFERENCE_ROLE (NAME, DESCRIPTION, LEVEL)
+		VALUES(?, ?, ?)
 	)");
 
 	const QLatin1String INSERT_REQUIREMENT_SQL = QLatin1String(R"(

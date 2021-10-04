@@ -53,10 +53,11 @@ QVariant DBManager::addPlatform(QString name)
 	return insertPlatformQuery.lastInsertId();
 }
 
-QVariant DBManager::addRole(QString name, QString description)
+QVariant DBManager::addRole(QString name, QString description, int level)
 {
 	insertRoleQuery.addBindValue(name);
 	insertRoleQuery.addBindValue(description);
+	insertRoleQuery.addBindValue(level);
 	insertRoleQuery.exec();
 	return insertRoleQuery.lastInsertId();
 }
@@ -185,13 +186,18 @@ void DBManager::populateDB()
 			return; // DB already has role(s), no need to populate
 		}
 
-		addRole("Main", "Fulfills the need.");
-		addRole("Fallback", "Backup. Not necessarily a drop in replacement.");
-		addRole("Primary", "Meets most requirements, but cannot fulfill all requirements. Needs other to make up the missing parts");
-		addRole("Secondary", "Augments Primary towards fulfilling requirements.");
-		addRole("Tertiary", "Augments Primary & Secondary towards fulfilling requirements.");
+		addRole("Main", "Fulfills the need.", 1);
+		addRole("Fallback", "Backup. Not necessarily a drop in replacement.", 100);
+		addRole("Primary", "Meets most requirements, but cannot fulfill all requirements. "
+						   "Needs other to make up the missing parts",
+			1);
+		addRole("Secondary", "Augments Primary towards fulfilling requirements.", 2);
+		addRole("Tertiary", "Augments Primary & Secondary towards fulfilling requirements.", 3);
 		addRole("Quaternary", "Augments Primary, Secondary & Tertiary towards fulfilling requirements. "
-							  "If you need this level, your category might be too broad. Consider breaking it up.");
+							  "If you need this level, your category might be too broad. "
+							  "Consider breaking it up.",
+			4);
+		addRole("Inactive", "Not in consideration, kept as reference.", 200);
 	}
 }
 

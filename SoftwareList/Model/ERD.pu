@@ -6,6 +6,8 @@
 
 ' skinparam Linetype ortho
 
+' Not Null *
+
 ' Zero or One |o--
 ' Exactly One ||--
 ' Zero or Many }o--
@@ -37,6 +39,7 @@ entity PreferenceRole {
 	--
 	* Name : Text
 	* Description : Text
+	* Level: Integer
 }
 
 entity Requirement {
