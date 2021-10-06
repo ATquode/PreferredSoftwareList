@@ -8,10 +8,18 @@ SoftwareItemModel::SoftwareItemModel(DBManager* dbManager, QObject* parent)
 	: QAbstractListModel(parent)
 {
 	this->dbManager = dbManager;
-	SoftwareItem item1("Software 1", QStringList("Category 1"), QStringList("Windows"), "limitation 1", QUrl(), "");
-	SoftwareItem item2("Software 2", QStringList("Category 1"), QStringList({ "macOS", "iOS" }), "limitation 2", QUrl(), "note 2");
-	SoftwareItem item3("Software 3", QStringList("Category 2"), QStringList("Linux"), "", QUrl(), "");
-	SoftwareItem item4("Software 4", QStringList("Category 2"), QStringList({ "android", "iOS" }), "", QUrl(), "note 4");
+	SoftwareItem item1("Software 1", QStringList("Category 1"), QStringList("Windows"),
+		QList<ContextualRole*>({ new ContextualRole("Category 1", "Windows", "Main") }), "limitation 1", QUrl(), "");
+	SoftwareItem item2("Software 2", QStringList("Category 1"), QStringList({ "macOS", "iOS" }),
+		QList<ContextualRole*>({ new ContextualRole("Category 1", "macOS", "Secondary"),
+			new ContextualRole("Category 1", "iOS", "Fallback") }),
+		"limitation 2", QUrl(), "note 2");
+	SoftwareItem item3("Software 3", QStringList("Category 2"), QStringList("Linux"),
+		QList<ContextualRole*>({ new ContextualRole("Category 2", "Linux", "Primary") }), "", QUrl(), "");
+	SoftwareItem item4("Software 4", QStringList("Category 2"), QStringList({ "android", "iOS" }),
+		QList<ContextualRole*>({ new ContextualRole("Category 2", "android", "Tertiary"),
+			new ContextualRole("Category 2", "iOS", "Inactive") }),
+		"", QUrl(), "note 4");
 	items << item1 << item2 << item3 << item4;
 }
 
@@ -36,6 +44,8 @@ QVariant SoftwareItemModel::data(const QModelIndex& index, int role) const
 		return item.categories;
 	case SWItemRole::PlatformRole:
 		return item.platforms;
+	case SWItemRole::PreferenceRole:
+		return QVariant::fromValue(item.preferenceRoles);
 	case SWItemRole::LimitationRole:
 		return item.limitation;
 	case SWItemRole::UrlRole:

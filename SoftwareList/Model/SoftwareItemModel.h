@@ -30,6 +30,7 @@ private:
 		{ SWItemRole::NameRole, "name" },
 		{ SWItemRole::CategoryRole, "categories" },
 		{ SWItemRole::PlatformRole, "platforms" },
+		{ SWItemRole::PreferenceRole, "prefRoles" },
 		{ SWItemRole::LimitationRole, "limitation" },
 		{ SWItemRole::UrlRole, "url" },
 		{ SWItemRole::NotesRole, "notes" }

@@ -4,13 +4,15 @@
 
 #include "SoftwareItem.h"
 
-// TODO: Category Requirement, Preference Roles
+// TODO: Category Requirement
 SoftwareItem::SoftwareItem(QString name, QStringList categories,
-	QStringList platforms, QString limitation, QUrl url,
+	QStringList platforms, QList<ContextualRole*> roles,
+	QString limitation, QUrl url,
 	QString notes)
 	: name(name)
 	, categories(categories)
 	, platforms(platforms)
+	, preferenceRoles(roles)
 	, limitation(limitation)
 	, url(url)
 	, notes(notes)

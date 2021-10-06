@@ -24,7 +24,7 @@ TEST(UnitTest, FilterOrCondition)
 	QString plat_linux("Linux");
 	QString plat_android("android");
 
-	SoftwareItem item1("Soft1", QStringList(), QStringList(plat_linux), "", QUrl(), "");
+	SoftwareItem item1("Soft1", QStringList(), QStringList(plat_linux), QList<ContextualRole*>(), "", QUrl(), "");
 	softModel.addItem(item1);
 	int lastIndex = softModel.rowCount() - 1;
 
@@ -44,7 +44,7 @@ TEST(UnitTest, FilterAndCondition)
 	QString plat_linux("Linux");
 	QString plat_windows("Windows");
 
-	SoftwareItem item1("Soft1", QStringList(category1), QStringList(plat_windows), "", QUrl(), "");
+	SoftwareItem item1("Soft1", QStringList(category1), QStringList(plat_windows), QList<ContextualRole*>(), "", QUrl(), "");
 	softModel.addItem(item1);
 	int lastIndex = softModel.rowCount() - 1;
 

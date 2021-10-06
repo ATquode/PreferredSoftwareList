@@ -30,6 +30,7 @@ ListView {
 			required property string name
 			required property var categories
 			required property var platforms
+			required property var prefRoles
 			required property string limitation
 			required property url url
 			required property string notes
@@ -64,6 +65,15 @@ ListView {
 							model: platforms
 							Text {
 								text: qsTr(modelData)
+							}
+						}
+					}
+					
+					RowLayout {
+						Repeater {
+							model: prefRoles
+							Text {
+								text: qsTr(modelData.platform + ": " + modelData.prefRole)
 							}
 						}
 					}

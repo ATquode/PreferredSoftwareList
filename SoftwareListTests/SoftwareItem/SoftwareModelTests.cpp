@@ -10,7 +10,7 @@ TEST(UnitTest, AddSoftwareItem)
 {
 	SoftwareItemModel softModel(nullptr);
 	QString swName("dummy soft");
-	SoftwareItem item(swName, QStringList(""), QStringList(""), "", QUrl(), "");
+	SoftwareItem item(swName, QStringList(""), QStringList(""), QList<ContextualRole*>(), "", QUrl(), "");
 	softModel.addItem(item);
 	int lastIndex = softModel.rowCount() - 1;
 	QModelIndex index = softModel.index(lastIndex);
