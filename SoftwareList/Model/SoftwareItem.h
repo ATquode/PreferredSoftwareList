@@ -24,7 +24,12 @@ public:
 	{
 	}
 
-	QString getPlatform()
+	const QString& getCategory() const
+	{
+		return category;
+	}
+
+	const QString& getPlatform() const
 	{
 		return platform;
 	}

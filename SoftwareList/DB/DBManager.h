@@ -5,6 +5,8 @@
 #ifndef DBMANAGER_H
 #define DBMANAGER_H
 
+#include "Model/SoftwareItem.h"
+
 #include <QtSql>
 
 class DBManager : public QObject {
@@ -16,9 +18,18 @@ public:
 	QVariant addRequirement(QString req, int categoryID);
 	QVariant addPlatform(QString name);
 	QVariant addRole(QString name, QString description, int level);
+	QVariant addSoftwareItem(const SoftwareItem& item);
+	QVariant addSoftwareCategoryLink(int softID, int catID);
+	QVariant addSoftwarePlatformLink(int softID, int platID);
+	QVariant addCategoryPlatformSoftwareRoleLink(int catID, int platID, int softID, int roleID);
 
 	QStringList getCategoryList();
 	QStringList getPlatformList();
+	QList<SoftwareItem> getSoftwareItemList();
+
+	QVariant getCategoryID(const QString& category);
+	QVariant getPlatformID(const QString& platform);
+	QVariant getPreferenceRoleID(const QString& prefRole);
 
 private:
 	const QLatin1String SOFTWARE_TABLE_SQL = QLatin1String(R"(
@@ -185,6 +196,68 @@ private:
 		VALUES(?, ?, ?, ?)
 	)");
 
+	const QLatin1String SELECT_CATEGORIES_FOR_SOFTWARE_ID_SQL = QLatin1String(R"(
+		SELECT NAME
+		FROM CATEGORY
+		WHERE ID IN (
+			SELECT CATEGORY_ID
+			FROM SOFTWARE_CATEGORY
+			WHERE SOFTWARE_ID = ?
+		)
+	)");
+
+	const QLatin1String SELECT_PLATFORMS_FOR_SOFTWARE_ID_SQL = QLatin1String(R"(
+		SELECT NAME
+		FROM PLATFORM
+		WHERE ID IN (
+			SELECT PLATFORM_ID
+			FROM SOFTWARE_PLATFORM
+			WHERE SOFTWARE_ID = ?
+		)
+	)");
+
+	const QLatin1String SELECT_CAT_PLAT_ROLE_LIST_FOR_SOFT_ID_SQL = QLatin1String(R"(
+		SELECT CATEGORY_ID, PLATFORM_ID, ROLE_ID
+		FROM CAT_PLAT_SOFT_ROLE
+		WHERE SOFTWARE_ID = ?
+	)");
+
+	const QLatin1String SELECT_ID_FOR_CATEGORY_SQL = QLatin1String(R"(
+		SELECT ID
+		FROM CATEGORY
+		WHERE NAME = ?
+	)");
+
+	const QLatin1String SELECT_ID_FOR_PLATFORM_SQL = QLatin1String(R"(
+		SELECT ID
+		FROM PLATFORM
+		WHERE NAME = ?
+	)");
+
+	const QLatin1String SELECT_ID_FOR_PREFERENCE_ROLE_SQL = QLatin1String(R"(
+		SELECT ID
+		FROM PREFERENCE_ROLE
+		WHERE NAME = ?
+	)");
+
+	const QLatin1String SELECT_CATEGORY_FOR_ID_SQL = QLatin1String(R"(
+		SELECT NAME
+		FROM CATEGORY
+		WHERE ID = ?
+	)");
+
+	const QLatin1String SELECT_PLATFORM_FOR_ID_SQL = QLatin1String(R"(
+		SELECT NAME
+		FROM PLATFORM
+		WHERE ID = ?
+	)");
+
+	const QLatin1String SELECT_PREFERENCE_ROLE_FOR_ID_SQL = QLatin1String(R"(
+		SELECT NAME
+		FROM PREFERENCE_ROLE
+		WHERE ID = ?
+	)");
+
 	QSqlQuery insertSoftwareQuery,
 		insertCategoryQuery,
 		insertPlatformQuery,
@@ -194,6 +267,15 @@ private:
 		insertSoftwarePlatformQuery,
 		insertSoftwareRequirementQuery,
 		insertCatPlatSoftRoleQuery;
+	QSqlQuery selectCategoriesForSoftwareIDQuery,
+		selectPlatformsForSoftwareIDQuery,
+		selectCatPlatRoleListForSoftIDQuery;
+	QSqlQuery selectIDForCategoryQuery,
+		selectIDForPlatformQuery,
+		selectIDForPreferenceRoleQuery,
+		selectCategoryForIDQuery,
+		selectPlatformForIDQuery,
+		selectPrefRoleForIDQuery;
 
 	QSqlError createTables();
 	QSqlError prepareStatements(QSqlDatabase& db);
@@ -203,6 +285,13 @@ private:
 	 * already exists, it won't modify the DB. 
 	 */
 	void populateDB();
+
+	QStringList getCategories(QVariant& softwareID);
+	QStringList getPlatforms(QVariant& softwareID);
+	QList<ContextualRole*> getPreferenceRoles(QVariant& softwareID);
+	QString getCategory(QVariant& categoryID);
+	QString getPlatform(QVariant& platformID);
+	QString getPreferenceRole(QVariant& prefRoleID);
 };
 
 #endif // DBMANAGER_H

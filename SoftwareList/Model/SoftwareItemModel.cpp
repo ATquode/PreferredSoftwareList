@@ -8,23 +8,95 @@ SoftwareItemModel::SoftwareItemModel(DBManager* dbManager, QObject* parent)
 	: QAbstractListModel(parent)
 {
 	this->dbManager = dbManager;
-	SoftwareItem item1("Software 1", QStringList("Category 1"), QStringList("Windows"),
-		QList<ContextualRole*>({ new ContextualRole("Category 1", "Windows", "Main") }), "limitation 1", QUrl(), "");
-	SoftwareItem item2("Software 2", QStringList("Category 1"), QStringList({ "macOS", "iOS" }),
-		QList<ContextualRole*>({ new ContextualRole("Category 1", "macOS", "Secondary"),
-			new ContextualRole("Category 1", "iOS", "Fallback") }),
-		"limitation 2", QUrl(), "note 2");
-	SoftwareItem item3("Software 3", QStringList("Category 2"), QStringList("Linux"),
-		QList<ContextualRole*>({ new ContextualRole("Category 2", "Linux", "Primary") }), "", QUrl(), "");
-	SoftwareItem item4("Software 4", QStringList("Category 2"), QStringList({ "android", "iOS" }),
-		QList<ContextualRole*>({ new ContextualRole("Category 2", "android", "Tertiary"),
-			new ContextualRole("Category 2", "iOS", "Inactive") }),
-		"", QUrl(), "note 4");
-	items << item1 << item2 << item3 << item4;
+	if (dbManager != nullptr) {
+		addItem(SoftwareItem("Software 1", QStringList("Category 1"), QStringList("Windows"),
+			QList<ContextualRole*>({ new ContextualRole("Category 1", "Windows", "Main") }), "limitation 1", QUrl(), ""));
+		addItem(SoftwareItem("Software 2", QStringList("Category 1"), QStringList({ "macOS", "iOS" }),
+			QList<ContextualRole*>({ new ContextualRole("Category 1", "macOS", "Secondary"),
+				new ContextualRole("Category 1", "iOS", "Fallback") }),
+			"limitation 2", QUrl(), "note 2"));
+		addItem(SoftwareItem("Software 3", QStringList("Category 2"), QStringList("Linux"),
+			QList<ContextualRole*>({ new ContextualRole("Category 2", "Linux", "Primary") }), "", QUrl(), ""));
+		addItem(SoftwareItem("Software 4", QStringList("Category 2"), QStringList({ "android", "iOS" }),
+			QList<ContextualRole*>({ new ContextualRole("Category 2", "android", "Tertiary"),
+				new ContextualRole("Category 2", "iOS", "Inactive") }),
+			"", QUrl(), "note 4"));
+	}
 }
 
 void SoftwareItemModel::addItem(const SoftwareItem& item)
 {
+	if (dbManager != nullptr) {
+		QVariant id = dbManager->addSoftwareItem(item);
+		if (!id.isValid()) {
+			qCritical() << "Failed to insert Software item: " << item.name;
+			return;
+		}
+		bool ok;
+		int softwareID = id.toInt(&ok);
+		if (!ok) {
+			qCritical() << "Failed to convert Software ID to int for Software item: " << item.name;
+			return;
+		}
+
+		for (const QString& category : item.categories) {
+			id = dbManager->getCategoryID(category);
+			if (id.isValid()) {
+				int categoryID = id.toInt();
+				id = dbManager->addSoftwareCategoryLink(softwareID, categoryID);
+				if (!id.isValid()) {
+					qCritical() << "Failed to link Sofware item: " << item.name << " with Category: " << category;
+					// TODO: Rollback
+				}
+			} else {
+				qCritical() << "Category: " << category << " does not exist in DB";
+			}
+		}
+
+		for (const QString& platform : item.platforms) {
+			id = dbManager->getPlatformID(platform);
+			if (id.isValid()) {
+				int platformID = id.toInt();
+				id = dbManager->addSoftwarePlatformLink(softwareID, platformID);
+				if (!id.isValid()) {
+					qCritical() << "Failed to link Software item: " << item.name << " with Platform: " << platform;
+					// TODO: Rollback
+				}
+			} else {
+				qCritical() << "Platform: " << platform << " does not exist in DB";
+			}
+		}
+
+		for (const ContextualRole* prefRole : item.preferenceRoles) {
+			id = dbManager->getCategoryID(prefRole->getCategory());
+			if (!id.isValid()) {
+				qCritical() << "Category: " << prefRole->getCategory() << " does not exist in DB";
+				continue;
+			}
+			int categoryID = id.toInt();
+
+			id = dbManager->getPlatformID(prefRole->getPlatform());
+			if (!id.isValid()) {
+				qCritical() << "Platform: " << prefRole->getPlatform() << " does not exist in DB";
+				continue;
+			}
+			int platformID = id.toInt();
+
+			id = dbManager->getPreferenceRoleID(prefRole->prefRole);
+			if (!id.isValid()) {
+				qCritical() << "Preference Role: " << prefRole->prefRole << " does not exist in DB";
+				continue;
+			}
+			int prefRoleID = id.toInt();
+
+			id = dbManager->addCategoryPlatformSoftwareRoleLink(categoryID, platformID, softwareID, prefRoleID);
+			if (!id.isValid()) {
+				qCritical() << "Failed to link Software item: " << item.name << " with Preference Role: " << prefRole->prefRole << " with Category: " << prefRole->getCategory() << " with Platfrom: " << prefRole->getPlatform();
+				// TODO: Rollback
+			}
+		}
+	}
+
 	beginInsertRows(QModelIndex(), rowCount(), rowCount());
 	items << item;
 	endInsertRows();
