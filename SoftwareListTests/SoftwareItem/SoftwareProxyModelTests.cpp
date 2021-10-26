@@ -56,3 +56,31 @@ TEST(UnitTest, FilterAndCondition)
 	// OR condition activates
 	EXPECT_TRUE(proxyModel.filterAccepts(lastIndex)) << "Same role should have OR condition";
 }
+
+TEST(UnitTest, FilterPreference)
+{
+	SoftwareItemProxyModelTest proxyModel;
+	SoftwareItemModel softModel(nullptr);
+	proxyModel.setSourceModel(&softModel);
+
+	QString category1("Category 1");
+	QString category2("Category 2");
+	QString plat_mac("macOS");
+	QString role_main("Main");
+
+	SoftwareItem item1("Soft1", QStringList(category1), QStringList(plat_mac),
+		QList<ContextualRole*>({ new ContextualRole(category1, plat_mac, role_main) }), "", QUrl(), "");
+	softModel.addItem(item1);
+	int lastIndex = softModel.rowCount() - 1;
+
+	proxyModel.addFilter(SWItemRole::PreferenceRole, role_main);
+	EXPECT_TRUE(proxyModel.filterAccepts(lastIndex)) << "Only preference role filter should not care about category or platform";
+
+	proxyModel.addFilter(SWItemRole::CategoryRole, category2);
+	EXPECT_FALSE(proxyModel.filterAccepts(lastIndex)) << "Preference match won't be accepted "
+														 "if one/more category/platform filter is active and none of them match";
+
+	proxyModel.addFilter(SWItemRole::CategoryRole, category1);
+	EXPECT_TRUE(proxyModel.filterAccepts(lastIndex)) << "Preference match should be accepted "
+														"if one/more category/platform filter is active and one of them (1 from category, 1 from platform) matches";
+}

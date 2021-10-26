@@ -23,7 +23,7 @@ public:
 	{
 	}
 
-	QString getFilter()
+	const QString& getFilter() const
 	{
 		return filter;
 	}
@@ -50,7 +50,7 @@ class FilterOptionModel : public QAbstractListModel {
 	Q_OBJECT
 
 public:
-	explicit FilterOptionModel(QStringList platforms, QObject* parent = nullptr);
+	explicit FilterOptionModel(QStringList platforms, QStringList prefRoles, QObject* parent = nullptr);
 
 	// Basic functionality:
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -71,7 +71,8 @@ private:
 	QList<FilterTypeOption> activeFilterList;
 
 	const QHash<int, QByteArray> itemRoleString = {
-		{ SWItemRole::PlatformRole, "Platform" }
+		{ SWItemRole::PlatformRole, "Platform" },
+		{ SWItemRole::PreferenceRole, "Preference Level" }
 	};
 
 	const QHash<int, QByteArray> roles = {

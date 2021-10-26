@@ -4,7 +4,7 @@
 
 #include "FilterOptionModel.h"
 
-FilterOptionModel::FilterOptionModel(QStringList platforms, QObject* parent)
+FilterOptionModel::FilterOptionModel(QStringList platforms, QStringList prefRoles, QObject* parent)
 	: QAbstractListModel(parent)
 {
 	QList<FilterOptionState*> platformOptions;
@@ -13,6 +13,14 @@ FilterOptionModel::FilterOptionModel(QStringList platforms, QObject* parent)
 	}
 	FilterTypeOption platformFilters(SWItemRole::PlatformRole, itemRoleString[SWItemRole::PlatformRole], platformOptions);
 	currentFilterList.append(platformFilters);
+
+	QList<FilterOptionState*> prefLevelOptions;
+	for (QString& prefLevel : prefRoles) {
+		prefLevelOptions.append(new FilterOptionState(prefLevel));
+	}
+	FilterTypeOption preferenceFilters(SWItemRole::PreferenceRole, itemRoleString[SWItemRole::PreferenceRole], prefLevelOptions);
+	currentFilterList.append(preferenceFilters);
+
 	activeFilterList = deepCopy(currentFilterList);
 }
 

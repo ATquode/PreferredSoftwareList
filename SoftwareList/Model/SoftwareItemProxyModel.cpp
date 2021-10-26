@@ -4,6 +4,7 @@
 
 #include "SoftwareItemProxyModel.h"
 #include "Model/SWItemRole.h"
+#include "Model/SoftwareItem.h"
 
 #include <QDebug>
 #include <QQmlApplicationEngine>
@@ -125,8 +126,44 @@ bool SoftwareItemProxyModel::filterAcceptsRow(int source_row, const QModelIndex&
 					break;
 				}
 			} else {
-				qCritical() << "Both dataList & dataStr is empty. Rejecting filtering. Role: " << *it << ", Filter value: " << dataVar;
-				return false;
+				if (*it == SWItemRole::PreferenceRole) {
+					auto prefList = dataVar.value<QList<ContextualRole*>>();
+					for (const ContextualRole* ctxRole : qAsConst(prefList)) {
+						if (ctxRole->prefRole == filter) {
+							bool categoryMatch = false;
+							if (filterPatterns.contains(SWItemRole::CategoryRole)) {
+								for (const QString& category : filterPatterns[SWItemRole::CategoryRole]) {
+									if (ctxRole->getCategory() == category) {
+										categoryMatch = true;
+										break;
+									}
+								}
+							} else {
+								categoryMatch = true;
+							}
+
+							bool platformMatch = false;
+							if (filterPatterns.contains(SWItemRole::PlatformRole)) {
+								for (const QString& platform : filterPatterns[SWItemRole::PlatformRole]) {
+									if (ctxRole->getPlatform() == platform) {
+										platformMatch = true;
+										break;
+									}
+								}
+							} else {
+								platformMatch = true;
+							}
+
+							if (categoryMatch && platformMatch) {
+								matched = true;
+								break;
+							}
+						}
+					}
+				} else {
+					qCritical() << "Both dataList & dataStr is empty. Rejecting filtering. Role: " << *it << ", Filter value: " << dataVar;
+					return false;
+				}
 			}
 			if (matched) {
 				break; // match for any filter within a role. This is the OR condition. Check the next role.

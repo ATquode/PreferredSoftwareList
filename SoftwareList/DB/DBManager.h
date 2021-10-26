@@ -25,6 +25,7 @@ public:
 
 	QStringList getCategoryList();
 	QStringList getPlatformList();
+	QStringList getPreferenceRoleList();
 	QList<SoftwareItem> getSoftwareItemList();
 
 	QVariant getCategoryID(const QString& category);

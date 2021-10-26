@@ -140,6 +140,23 @@ QStringList DBManager::getPlatformList()
 	return platforms;
 }
 
+QStringList DBManager::getPreferenceRoleList()
+{
+	QStringList roles;
+
+	QLatin1String queryStr(R"(
+		SELECT NAME
+		FROM PREFERENCE_ROLE
+		ORDER BY LEVEL
+	)");
+	QSqlQuery q(queryStr);
+	while (q.next()) {
+		QString prefRole = q.value(0).toString();
+		roles << prefRole;
+	}
+	return roles;
+}
+
 QList<SoftwareItem> DBManager::getSoftwareItemList()
 {
 	QList<SoftwareItem> items;
