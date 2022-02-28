@@ -20,6 +20,14 @@ ApplicationWindow {
 
 	menuBar: SWLMenuBar {
 //	SWLMenuBar{
+		onMenuPressed: {
+			if (menuType === SWLMenuBar.MenuType.NewSoftware) {
+				var comp = Qt.createComponent("SoftwareEntry.qml");
+				var window = comp.createObject();
+				window.show();
+			}
+		}
+
 		onMenuToggled: {
 			if (isChecked) {
 				addFilter(menuType, menuValue);

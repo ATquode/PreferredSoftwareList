@@ -9,6 +9,11 @@ import QtQuick.Controls 2.15
 import SWList 1.0
 
 MenuBar {
+	enum MenuType {
+		NewSoftware
+	}
+
+	signal menuPressed(int menuType)
 	signal menuToggled(int menuType, string menuValue, bool isChecked)
 	
 	Menu {
@@ -38,6 +43,15 @@ MenuBar {
 			
 			onObjectAdded: filterMenu.insertMenu(index, object)
 			onObjectRemoved: filterMenu.removeMenu(object)
+		}
+	}
+
+	Menu {
+		title: qsTr("\&Add")
+
+		MenuItem {
+			text: qsTr("Software")
+			onTriggered: menuPressed(SWLMenuBar.MenuType.NewSoftware)
 		}
 	}
 }
