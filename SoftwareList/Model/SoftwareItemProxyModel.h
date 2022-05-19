@@ -64,7 +64,7 @@ protected:
 	 * @brief Accepts row if all roles has at least one matched filter with the row data.
 	 * Which means, within same role, any filter match will be true (OR condition),
 	 * but for different roles, all roles have to have a match (AND condition).
-	 * 
+	 *
 	 * The roles which uses list (e.g. Platform, Category) will check for exact match.
 	 * The roles which uses single string will check for substring match.
 	 * @param source_row Row index

@@ -283,7 +283,7 @@ private:
 
 	/**
 	 * @brief Populate database with default data. If relevant data
-	 * already exists, it won't modify the DB. 
+	 * already exists, it won't modify the DB.
 	 */
 	void populateDB();
 
