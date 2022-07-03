@@ -8,7 +8,8 @@ ModelProvider::ModelProvider(DBManager* dbManager, QObject* parent)
 	: QObject(parent)
 	, categoryModel(dbManager)
 	, platformModel(dbManager)
-	, filterModel(platformModel.stringList(), dbManager->getPreferenceRoleList())
+	, prefRoleModel(dbManager)
+	, filterModel(platformModel.stringList(), prefRoleModel.stringList())
 	, softModel(dbManager)
 {
 }

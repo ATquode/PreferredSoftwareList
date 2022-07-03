@@ -7,6 +7,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import Qt.labs.qmlmodels 1.0
 
+import SWList 1.0
+
 ApplicationWindow {
 	ScrollView {
 		anchors.fill: parent
@@ -109,8 +111,9 @@ ApplicationWindow {
 						DelegateChoice {
 							column: 0
 							delegate: ComboBox {
-								currentIndex: display
-								model: ["a", "a11", "a21"]
+								currentIndex: -1//display
+								model: ModelProvider.catList
+								textRole: "modelData"
 							}
 						}
 
@@ -118,7 +121,8 @@ ApplicationWindow {
 							column: 1
 							delegate: ComboBox {
 								currentIndex: display
-								model: ["b", "b1", "b2"]
+								model: ModelProvider.platformModel
+								textRole: "display"
 							}
 						}
 
@@ -126,7 +130,8 @@ ApplicationWindow {
 							column: 2
 							delegate: ComboBox {
 								currentIndex: display
-								model: ["c", "c1", "c2"]
+								model: ModelProvider.preferenceRoleModel
+								textRole: "display"
 							}
 						}
 

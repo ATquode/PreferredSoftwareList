@@ -53,6 +53,7 @@ set(PROJECT_SOURCES
 	Model/FilterOptionModel.cpp
 	Model/ModelProvider.cpp
 	Model/PlatformListModel.cpp
+	Model/PreferenceRoleListModel.cpp
 	Model/SoftwareItem.cpp
 	Model/SoftwareItemModel.cpp
 	Model/SoftwareItemProxyModel.cpp
@@ -67,6 +68,7 @@ set(PROJECT_HEADERS
 	Model/FilterOptionModel.h
 	Model/ModelProvider.h
 	Model/PlatformListModel.h
+	Model/PreferenceRoleListModel.h
 	Model/SoftwareItem.h
 	Model/SoftwareItemModel.h
 	Model/SoftwareItemProxyModel.h
