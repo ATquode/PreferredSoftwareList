@@ -10,6 +10,23 @@ import Qt.labs.qmlmodels 1.0
 import SWList 1.0
 
 ApplicationWindow {
+	property var softItem: SoftwareItem {
+		name: "lksdf"
+		preferenceRoles: [
+			{
+				"category": "Category 1",
+				"platform": "Windows",
+				"prefRole": "Primary"
+			}
+		]
+		limitation: "grrr"
+		notes: "hell"
+	}
+
+	objectName: "softwareEntryWindow"
+
+	signal categoryChanged(int catIndex, int row)
+
 	ScrollView {
 		anchors.fill: parent
 		property real cWidth: tableView.childrenRect.width + 7*2
@@ -31,6 +48,8 @@ ApplicationWindow {
 					}
 					TextField {
 						Layout.fillWidth: true
+						text: softItem.name
+						onTextChanged: softItem.name = text
 					}
 				}
 
@@ -38,7 +57,7 @@ ApplicationWindow {
 					id: tableView
 					Layout.fillWidth: true
 //					Layout.minimumHeight: 20
-					Layout.preferredHeight: 16 + ((tbm.rowCount - 1) * 32.5) + ((tbm.rowCount - 1) * 5) + 10
+					Layout.preferredHeight: 16 + ((tbm.rowCount() - 1) * 32.5) + ((tbm.rowCount() - 1) * 5) + 10
 					rowHeightProvider: function (row) {
 						if (row === 0) {
 							return 16
@@ -53,50 +72,9 @@ ApplicationWindow {
 					rowSpacing: 5
 //					columnWidthProvider: function (column) { return 300; }
 
-					model: TableModel {
+					model: ContextualRoleTableModel {
 						id: tbm
-						TableModelColumn { display: "Category" }
-						TableModelColumn { display: "Platform" }
-						TableModelColumn { display: "Role" }
-						TableModelColumn { display: "Button" }
-						rows: [
-							{
-								Category: "Category",
-								Platform: "Platform",
-								Role: "Preferred Role",
-								Button: ""
-							},
-							{
-								Category: 0,
-								Platform: 1,
-								Role: 2
-							},
-							{
-								Category: 0,
-								Platform: 1,
-								Role: 2
-							},
-							{
-								Category: 0,
-								Platform: 1,
-								Role: 2
-							},
-							{
-								Category: 0,
-								Platform: 1,
-								Role: 2
-							},
-							{
-								Category: 0,
-								Platform: 1,
-								Role: 2
-							},
-							{
-								Category: 0,
-								Platform: 1,
-								Role: 2
-							}
-						]
+						contextRoles: softItem.preferenceRoles
 					}
 
 					delegate: DelegateChooser {
@@ -111,9 +89,10 @@ ApplicationWindow {
 						DelegateChoice {
 							column: 0
 							delegate: ComboBox {
-								currentIndex: -1//display
+								currentIndex: display
 								model: ModelProvider.catList
 								textRole: "modelData"
+								onActivated: categoryChanged(index, row)
 							}
 						}
 
@@ -155,6 +134,7 @@ ApplicationWindow {
 					}
 					TextField {
 						Layout.fillWidth: true
+						text: softItem.limitation
 					}
 				}
 
@@ -164,6 +144,7 @@ ApplicationWindow {
 					}
 					TextField {
 						Layout.fillWidth: true
+						text: softItem.url
 					}
 				}
 
@@ -176,7 +157,9 @@ ApplicationWindow {
 						Layout.fillWidth: true
 						Layout.fillHeight: true
 						Layout.minimumHeight: 80
-						TextArea {}
+						TextArea {
+							text: softItem.notes
+						}
 					}
 				}
 
@@ -184,6 +167,7 @@ ApplicationWindow {
 					Layout.alignment: Qt.AlignRight
 					Button {
 						text: qsTr("OK")
+						onClicked: ModelProvider.softSrcModel.onEntryDone(softItem)
 					}
 					Button {
 						text: qsTr("Cancel")

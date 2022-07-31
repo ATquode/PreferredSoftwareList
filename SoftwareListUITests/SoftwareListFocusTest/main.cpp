@@ -50,8 +50,8 @@ int main(int argc, char* argv[])
 
 	// Setup Data
 	ModelProvider modelProvider(nullptr);
-	SoftwareItem item1("Software 1", {}, {}, {}, "", QUrl(), ""),
-		item2("Software 2", {}, {}, {}, "", QUrl(), "");
+	SoftwareItem* item1 = new SoftwareItem("Software 1", {}, {}, {}, "", QUrl(), "");
+	SoftwareItem* item2 = new SoftwareItem("Software 2", {}, {}, {}, "", QUrl(), "");
 	modelProvider.softSrcModel()->addItem(item1);
 	modelProvider.softSrcModel()->addItem(item2);
 

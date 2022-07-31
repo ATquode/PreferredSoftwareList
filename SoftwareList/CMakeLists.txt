@@ -54,6 +54,7 @@ set(PROJECT_SOURCES
 	Model/ModelProvider.cpp
 	Model/PlatformListModel.cpp
 	Model/PreferenceRoleListModel.cpp
+	Model/ContextualRoleTableModel.cpp
 	Model/SoftwareItem.cpp
 	Model/SoftwareItemModel.cpp
 	Model/SoftwareItemProxyModel.cpp
@@ -69,10 +70,12 @@ set(PROJECT_HEADERS
 	Model/ModelProvider.h
 	Model/PlatformListModel.h
 	Model/PreferenceRoleListModel.h
+	Model/ContextualRoleTableModel.h
 	Model/SoftwareItem.h
 	Model/SoftwareItemModel.h
 	Model/SoftwareItemProxyModel.h
 	Model/SWItemRole.h
+	Model/ContextualRole.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

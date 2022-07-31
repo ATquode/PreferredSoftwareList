@@ -23,7 +23,7 @@ ApplicationWindow {
 		onMenuPressed: {
 			if (menuType === SWLMenuBar.MenuType.NewSoftware) {
 				var comp = Qt.createComponent("SoftwareEntry.qml");
-				var window = comp.createObject();
+				var window = comp.createObject(this);
 				window.show();
 			}
 		}

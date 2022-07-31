@@ -24,7 +24,7 @@ TEST(UnitTest, FilterOrCondition)
 	QString plat_linux("Linux");
 	QString plat_android("android");
 
-	SoftwareItem item1("Soft1", QStringList(), QStringList(plat_linux), QList<ContextualRole*>(), "", QUrl(), "");
+	SoftwareItem* item1 = new SoftwareItem("Soft1", QStringList(), QStringList(plat_linux), QList<ContextualRole*>(), "", QUrl(), "");
 	softModel.addItem(item1);
 	int lastIndex = softModel.rowCount() - 1;
 
@@ -44,7 +44,7 @@ TEST(UnitTest, FilterAndCondition)
 	QString plat_linux("Linux");
 	QString plat_windows("Windows");
 
-	SoftwareItem item1("Soft1", QStringList(category1), QStringList(plat_windows), QList<ContextualRole*>(), "", QUrl(), "");
+	SoftwareItem* item1 = new SoftwareItem("Soft1", QStringList(category1), QStringList(plat_windows), QList<ContextualRole*>(), "", QUrl(), "");
 	softModel.addItem(item1);
 	int lastIndex = softModel.rowCount() - 1;
 
@@ -68,7 +68,7 @@ TEST(UnitTest, FilterPreference)
 	QString plat_mac("macOS");
 	QString role_main("Main");
 
-	SoftwareItem item1("Soft1", QStringList(category1), QStringList(plat_mac),
+	SoftwareItem* item1 = new SoftwareItem("Soft1", QStringList(category1), QStringList(plat_mac),
 		QList<ContextualRole*>({ new ContextualRole(category1, plat_mac, role_main) }), "", QUrl(), "");
 	softModel.addItem(item1);
 	int lastIndex = softModel.rowCount() - 1;

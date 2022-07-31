@@ -5,48 +5,34 @@
 #ifndef SOFTWAREITEM_H
 #define SOFTWAREITEM_H
 
-#include <QObject>
-#include <QString>
+#include "Model/ContextualRole.h"
+
 #include <QUrl>
+#include <QtQml>
 
-class ContextualRole : public QObject {
+class SoftwareItem : public QObject {
 	Q_OBJECT
-	Q_PROPERTY(QString platform READ getPlatform CONSTANT)
-	Q_PROPERTY(QString prefRole MEMBER prefRole NOTIFY prefRoleChanged)
+	Q_PROPERTY(QString name MEMBER name NOTIFY nameChanged)
+	Q_PROPERTY(QVariant preferenceRoles READ getPreferenceRoles WRITE setPreferenceRoles NOTIFY preferenceRolesChanged)
+	Q_PROPERTY(QString limitation MEMBER limitation NOTIFY limitationChanged)
+	Q_PROPERTY(QUrl url MEMBER url NOTIFY urlChanged)
+	Q_PROPERTY(QString notes MEMBER notes NOTIFY notesChanged)
+	QML_ELEMENT
 public:
-	QString prefRole;
-
-	ContextualRole(QString cat, QString plat, QString role, QObject* parent = nullptr)
-		: QObject(parent)
-		, prefRole(role)
-		, category(cat)
-		, platform(plat)
-	{
-	}
-
-	const QString& getCategory() const
-	{
-		return category;
-	}
-
-	const QString& getPlatform() const
-	{
-		return platform;
-	}
-
-signals:
-	void prefRoleChanged();
-
-private:
-	QString category;
-	QString platform;
-};
-
-class SoftwareItem {
-public:
-	SoftwareItem(QString name, QStringList categories, QStringList platforms,
+	explicit SoftwareItem(QObject* parent = nullptr) {};
+	explicit SoftwareItem(QString name, QStringList categories, QStringList platforms,
 		QList<ContextualRole*> roles, QString limitation,
-		QUrl url, QString notes);
+		QUrl url, QString notes, QObject* parent = nullptr);
+
+	QVariant getPreferenceRoles()
+	{
+		return QVariant::fromValue(preferenceRoles);
+	}
+
+	void setPreferenceRoles(QVariant prefRoleList)
+	{
+		preferenceRoles = prefRoleList.value<QList<ContextualRole*>>();
+	}
 
 	QString name;
 	QStringList categories;
@@ -55,6 +41,13 @@ public:
 	QString limitation;
 	QUrl url;
 	QString notes;
+
+signals:
+	void nameChanged();
+	void preferenceRolesChanged();
+	void limitationChanged();
+	void urlChanged();
+	void notesChanged();
 };
 
 #endif // SOFTWAREITEM_H

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "Application.h"
+#include "Model/ContextualRoleTableModel.h"
 #include "Model/SoftwareItemProxyModel.h"
 
 #include <QQmlFileSelector>
@@ -23,6 +24,8 @@ void Application::registerCppTypesToQml()
 	qmlRegisterUncreatableType<SWItemRole>("SWList", 1, 0, "SWItemRole", "Enum wrapper not creatable");
 	qmlRegisterSingletonInstance("SWList", 1, 0, "ModelProvider", &modelProvider);
 	qmlRegisterType<SoftwareItemProxyModel>("SWList", 1, 0, "SoftProxyModel");
+	qmlRegisterType<SoftwareItem>("SWList", 1, 0, "SoftwareItem");
+	qmlRegisterType<ContextualRoleTableModel>("SWList", 1, 0, "ContextualRoleTableModel");
 }
 
 void Application::loadQml(QQmlApplicationEngine& engine, QGuiApplication& app)

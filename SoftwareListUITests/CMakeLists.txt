@@ -62,6 +62,7 @@ set(APP_SOURCES
 	../../SoftwareList/Model/SoftwareItemModel.cpp
 	../../SoftwareList/Model/SoftwareItemProxyModel.cpp
 	../../SoftwareList/Model/SWItemRole.h
+	../../SoftwareList/Model/ContextualRole.h
 )
 
 add_subdirectory(CategoryListTest)

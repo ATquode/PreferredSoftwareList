@@ -9,43 +9,43 @@ SoftwareItemModel::SoftwareItemModel(DBManager* dbManager, QObject* parent)
 {
 	this->dbManager = dbManager;
 	if (dbManager != nullptr) {
-		addItem(SoftwareItem("Software 1", QStringList("Category 1"), QStringList("Windows"),
+		addItem(new SoftwareItem("Software 1", QStringList("Category 1"), QStringList("Windows"),
 			QList<ContextualRole*>({ new ContextualRole("Category 1", "Windows", "Main") }), "limitation 1", QUrl(), ""));
-		addItem(SoftwareItem("Software 2", QStringList("Category 1"), QStringList({ "macOS", "iOS" }),
+		addItem(new SoftwareItem("Software 2", QStringList("Category 1"), QStringList({ "macOS", "iOS" }),
 			QList<ContextualRole*>({ new ContextualRole("Category 1", "macOS", "Secondary"),
 				new ContextualRole("Category 1", "iOS", "Fallback") }),
 			"limitation 2", QUrl(), "note 2"));
-		addItem(SoftwareItem("Software 3", QStringList("Category 2"), QStringList("Linux"),
+		addItem(new SoftwareItem("Software 3", QStringList("Category 2"), QStringList("Linux"),
 			QList<ContextualRole*>({ new ContextualRole("Category 2", "Linux", "Primary") }), "", QUrl(), ""));
-		addItem(SoftwareItem("Software 4", QStringList("Category 2"), QStringList({ "android", "iOS" }),
+		addItem(new SoftwareItem("Software 4", QStringList("Category 2"), QStringList({ "android", "iOS" }),
 			QList<ContextualRole*>({ new ContextualRole("Category 2", "android", "Tertiary"),
 				new ContextualRole("Category 2", "iOS", "Inactive") }),
 			"", QUrl(), "note 4"));
 	}
 }
 
-void SoftwareItemModel::addItem(const SoftwareItem& item)
+void SoftwareItemModel::addItem(const SoftwareItem* item)
 {
 	if (dbManager != nullptr) {
 		QVariant id = dbManager->addSoftwareItem(item);
 		if (!id.isValid()) {
-			qCritical() << "Failed to insert Software item: " << item.name;
+			qCritical() << "Failed to insert Software item: " << item->name;
 			return;
 		}
 		bool ok;
 		int softwareID = id.toInt(&ok);
 		if (!ok) {
-			qCritical() << "Failed to convert Software ID to int for Software item: " << item.name;
+			qCritical() << "Failed to convert Software ID to int for Software item: " << item->name;
 			return;
 		}
 
-		for (const QString& category : item.categories) {
+		for (const QString& category : item->categories) {
 			id = dbManager->getCategoryID(category);
 			if (id.isValid()) {
 				int categoryID = id.toInt();
 				id = dbManager->addSoftwareCategoryLink(softwareID, categoryID);
 				if (!id.isValid()) {
-					qCritical() << "Failed to link Sofware item: " << item.name << " with Category: " << category;
+					qCritical() << "Failed to link Sofware item: " << item->name << " with Category: " << category;
 					// TODO: Rollback
 				}
 			} else {
@@ -53,13 +53,13 @@ void SoftwareItemModel::addItem(const SoftwareItem& item)
 			}
 		}
 
-		for (const QString& platform : item.platforms) {
+		for (const QString& platform : item->platforms) {
 			id = dbManager->getPlatformID(platform);
 			if (id.isValid()) {
 				int platformID = id.toInt();
 				id = dbManager->addSoftwarePlatformLink(softwareID, platformID);
 				if (!id.isValid()) {
-					qCritical() << "Failed to link Software item: " << item.name << " with Platform: " << platform;
+					qCritical() << "Failed to link Software item: " << item->name << " with Platform: " << platform;
 					// TODO: Rollback
 				}
 			} else {
@@ -67,7 +67,7 @@ void SoftwareItemModel::addItem(const SoftwareItem& item)
 			}
 		}
 
-		for (const ContextualRole* prefRole : item.preferenceRoles) {
+		for (const ContextualRole* prefRole : item->preferenceRoles) {
 			id = dbManager->getCategoryID(prefRole->getCategory());
 			if (!id.isValid()) {
 				qCritical() << "Category: " << prefRole->getCategory() << " does not exist in DB";
@@ -91,7 +91,7 @@ void SoftwareItemModel::addItem(const SoftwareItem& item)
 
 			id = dbManager->addCategoryPlatformSoftwareRoleLink(categoryID, platformID, softwareID, prefRoleID);
 			if (!id.isValid()) {
-				qCritical() << "Failed to link Software item: " << item.name << " with Preference Role: " << prefRole->prefRole << " with Category: " << prefRole->getCategory() << " with Platfrom: " << prefRole->getPlatform();
+				qCritical() << "Failed to link Software item: " << item->name << " with Preference Role: " << prefRole->prefRole << " with Category: " << prefRole->getCategory() << " with Platfrom: " << prefRole->getPlatform();
 				// TODO: Rollback
 			}
 		}
@@ -108,22 +108,22 @@ QVariant SoftwareItemModel::data(const QModelIndex& index, int role) const
 		return QVariant();
 	}
 
-	const SoftwareItem& item = items[index.row()];
+	const SoftwareItem* item = items[index.row()];
 	switch (role) {
 	case SWItemRole::NameRole:
-		return item.name;
+		return item->name;
 	case SWItemRole::CategoryRole:
-		return item.categories;
+		return item->categories;
 	case SWItemRole::PlatformRole:
-		return item.platforms;
+		return item->platforms;
 	case SWItemRole::PreferenceRole:
-		return QVariant::fromValue(item.preferenceRoles);
+		return QVariant::fromValue(item->preferenceRoles);
 	case SWItemRole::LimitationRole:
-		return item.limitation;
+		return item->limitation;
 	case SWItemRole::UrlRole:
-		return item.url;
+		return item->url;
 	case SWItemRole::NotesRole:
-		return item.notes;
+		return item->notes;
 	default:
 		return QVariant();
 	}
@@ -133,6 +133,14 @@ int SoftwareItemModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
 	return items.count();
+}
+
+bool SoftwareItemModel::onEntryDone(SoftwareItem* item, int itemID)
+{
+	if (itemID == -1) {
+		qDebug() << item->name;
+	}
+	return true;
 }
 
 QHash<int, QByteArray> SoftwareItemModel::roleNames() const

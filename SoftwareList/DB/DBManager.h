@@ -18,7 +18,7 @@ public:
 	QVariant addRequirement(QString req, int categoryID);
 	QVariant addPlatform(QString name);
 	QVariant addRole(QString name, QString description, int level);
-	QVariant addSoftwareItem(const SoftwareItem& item);
+	QVariant addSoftwareItem(const SoftwareItem* item);
 	QVariant addSoftwareCategoryLink(int softID, int catID);
 	QVariant addSoftwarePlatformLink(int softID, int platID);
 	QVariant addCategoryPlatformSoftwareRoleLink(int catID, int platID, int softID, int roleID);
@@ -26,7 +26,7 @@ public:
 	QStringList getCategoryList();
 	QStringList getPlatformList();
 	QStringList getPreferenceRoleList();
-	QList<SoftwareItem> getSoftwareItemList();
+	QList<SoftwareItem*> getSoftwareItemList();
 
 	QVariant getCategoryID(const QString& category);
 	QVariant getPlatformID(const QString& platform);

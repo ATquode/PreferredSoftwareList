@@ -70,12 +70,12 @@ QVariant DBManager::addRole(QString name, QString description, int level)
 	return insertRoleQuery.lastInsertId();
 }
 
-QVariant DBManager::addSoftwareItem(const SoftwareItem& item)
+QVariant DBManager::addSoftwareItem(const SoftwareItem* item)
 {
-	insertSoftwareQuery.addBindValue(item.name);
-	insertSoftwareQuery.addBindValue(item.limitation);
-	insertSoftwareQuery.addBindValue(item.url);
-	insertSoftwareQuery.addBindValue(item.notes);
+	insertSoftwareQuery.addBindValue(item->name);
+	insertSoftwareQuery.addBindValue(item->limitation);
+	insertSoftwareQuery.addBindValue(item->url);
+	insertSoftwareQuery.addBindValue(item->notes);
 	insertSoftwareQuery.exec();
 	return insertSoftwareQuery.lastInsertId();
 }
@@ -157,9 +157,9 @@ QStringList DBManager::getPreferenceRoleList()
 	return roles;
 }
 
-QList<SoftwareItem> DBManager::getSoftwareItemList()
+QList<SoftwareItem*> DBManager::getSoftwareItemList()
 {
-	QList<SoftwareItem> items;
+	QList<SoftwareItem*> items;
 
 	QLatin1String queryStr(R"(
 		SELECT ID, NAME, LIMITATION, URL, NOTES
@@ -180,7 +180,7 @@ QList<SoftwareItem> DBManager::getSoftwareItemList()
 		QUrl url = QUrl(q.value(3).toString());
 		QString notes = q.value(4).toString();
 
-		SoftwareItem item(name, categories, platforms, prefRoles, limitation, url, notes);
+		SoftwareItem* item = new SoftwareItem(name, categories, platforms, prefRoles, limitation, url, notes);
 		items << item;
 	}
 	return items;

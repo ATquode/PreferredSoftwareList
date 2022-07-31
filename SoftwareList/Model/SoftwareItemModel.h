@@ -15,15 +15,18 @@ class SoftwareItemModel : public QAbstractListModel {
 	Q_OBJECT
 public:
 	explicit SoftwareItemModel(DBManager* dbManager, QObject* parent = nullptr);
-	void addItem(const SoftwareItem& item);
+	void addItem(const SoftwareItem* item);
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+
+public slots:
+	bool onEntryDone(SoftwareItem* item, int itemID = -1);
 
 protected:
 	QHash<int, QByteArray> roleNames() const override;
 
 private:
-	QList<SoftwareItem> items;
+	QList<const SoftwareItem*> items;
 	DBManager* dbManager;
 
 	const QHash<int, QByteArray> roles = {

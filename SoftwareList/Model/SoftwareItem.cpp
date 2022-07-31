@@ -8,7 +8,7 @@
 SoftwareItem::SoftwareItem(QString name, QStringList categories,
 	QStringList platforms, QList<ContextualRole*> roles,
 	QString limitation, QUrl url,
-	QString notes)
+	QString notes, QObject* parent)
 	: name(name)
 	, categories(categories)
 	, platforms(platforms)
