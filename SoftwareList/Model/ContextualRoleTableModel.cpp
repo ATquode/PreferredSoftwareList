@@ -27,14 +27,9 @@ QVariant ContextualRoleTableModel::data(const QModelIndex& index, int role) cons
 	switch (role) {
 	case Qt::DisplayRole:
 		if (index.row() == 0) {
-			switch (index.column()) {
-			case 0:
-				return "Category";
-			case 1:
-				return "Platform";
-			case 2:
-				return "Preference Role";
-			default:
+			if (index.column() < headerData.count()) {
+				return headerData[index.column()];
+			} else {
 				return "";
 			}
 		} else {

@@ -45,6 +45,18 @@ public slots:
 
 private:
 	QList<ContextualRole*> ctxRoles;
+
+	enum Header {
+		Category,
+		Platform,
+		PreferenceRole
+	};
+
+	const QHash<int, QByteArray> headerData = {
+		{ Category, "Category" },
+		{ Platform, "Platform" },
+		{ PreferenceRole, "Preference Role" }
+	};
 };
 
 #endif // CONTEXTUALROLETABLEMODEL_H
