@@ -18,7 +18,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(
 	Qt5
-	COMPONENTS Core Qml Sql
+	COMPONENTS Core Quick Sql
 	REQUIRED
 )
 
@@ -42,9 +42,11 @@ set(TEST_SOURCES
 	../SoftwareList/Model/SoftwareItemModel.cpp
 	../SoftwareList/Model/SoftwareItemProxyModel.cpp
 	../SoftwareList/Model/ContextualRole.h
+	../SoftwareList/Model/ContextualRoleTableModel.cpp
 	Category/CategoryTests.cpp
 	SoftwareItem/SoftwareModelTests.cpp
 	SoftwareItem/SoftwareProxyModelTests.cpp
+	SoftwareItem/ContextualRoleModelTests.cpp
 	unittest_main.cpp
 )
 
@@ -57,4 +59,6 @@ target_compile_definitions(
 )
 
 target_include_directories(SWListUnitTest PRIVATE ../SoftwareList)
-target_link_libraries(SWListUnitTest PRIVATE Qt5::Core Qt5::Qml Qt5::Sql gtest)
+target_link_libraries(
+	SWListUnitTest PRIVATE Qt5::Core Qt5::Quick Qt5::Sql gtest
+)

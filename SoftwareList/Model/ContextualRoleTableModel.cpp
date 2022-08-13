@@ -19,7 +19,7 @@ int ContextualRoleTableModel::rowCount(const QModelIndex&) const
 
 int ContextualRoleTableModel::columnCount(const QModelIndex&) const
 {
-	return 3 + 1;
+	return headerData.count() + 1;
 }
 
 QVariant ContextualRoleTableModel::data(const QModelIndex& index, int role) const
@@ -47,6 +47,8 @@ void ContextualRoleTableModel::classBegin()
 
 void ContextualRoleTableModel::componentComplete()
 {
+	ctxRoles.append(new ContextualRole("", "", ""));
+
 	QQmlApplicationEngine* engine = qobject_cast<QQmlApplicationEngine*>(qmlEngine(this));
 	if (!engine) {
 		qCritical() << "engine is null";
@@ -66,11 +68,68 @@ void ContextualRoleTableModel::componentComplete()
 	}
 
 	// clang-format off
-	QObject::connect(swEntryWindow, SIGNAL(categoryChanged(int,int)), this, SLOT(onCategoryChanged(int,int)));
+	QObject::connect(swEntryWindow, SIGNAL(categoryChanged(QString,int)), this, SLOT(onCategoryChanged(QString,int)));
+	QObject::connect(swEntryWindow, SIGNAL(platformChanged(QString,int)), this, SLOT(onPlatformChanged(QString,int)));
+	QObject::connect(swEntryWindow, SIGNAL(prefRoleChanged(QString,int)), this, SLOT(onPrefRoleChanged(QString,int)));
+	QObject::connect(swEntryWindow, SIGNAL(addRowClicked()), this, SLOT(onAddRowClicked()));
 	// clang-format on
 }
 
-void ContextualRoleTableModel::onCategoryChanged(int catIndex, int row)
+void ContextualRoleTableModel::onCategoryChanged(QString category, int row)
+{
+	modifyContextRole(Header::Category, category, row);
+}
+
+void ContextualRoleTableModel::onPlatformChanged(QString platform, int row)
+{
+	modifyContextRole(Header::Platform, platform, row);
+}
+
+void ContextualRoleTableModel::onPrefRoleChanged(QString prefRole, int row)
+{
+	modifyContextRole(Header::PreferenceRole, prefRole, row);
+}
+
+void ContextualRoleTableModel::onAddRowClicked()
+{
+	ContextualRole* ctxRole = new ContextualRole("", "", "");
+	ctxRoles.append(ctxRole);
+}
+
+void ContextualRoleTableModel::modifyContextRole(Header type, QString value, int row)
 {
 	int ctxRoleIndex = row - 1;
+
+	if (ctxRoleIndex < 0) {
+		qCritical() << "invalid index";
+		return;
+	}
+
+	if (ctxRoleIndex >= ctxRoles.count()) {
+		qCritical() << "index out of bounds";
+		return;
+	}
+
+	ContextualRole* ctxRole = ctxRoles.at(ctxRoleIndex);
+
+	switch (type) {
+	case Category:
+		if (ctxRole->category == value) {
+			return;
+		}
+		ctxRole->category = value;
+		break;
+	case Platform:
+		if (ctxRole->platform == value) {
+			return;
+		}
+		ctxRole->platform = value;
+		break;
+	case PreferenceRole:
+		if (ctxRole->prefRole == value) {
+			return;
+		}
+		ctxRole->prefRole = value;
+		break;
+	}
 }

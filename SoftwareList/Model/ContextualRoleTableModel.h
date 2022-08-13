@@ -41,7 +41,10 @@ signals:
 	void contextRolesChanged();
 
 public slots:
-	void onCategoryChanged(int catIndex, int row);
+	void onCategoryChanged(QString category, int row);
+	void onPlatformChanged(QString platform, int row);
+	void onPrefRoleChanged(QString prefRole, int row);
+	void onAddRowClicked();
 
 private:
 	QList<ContextualRole*> ctxRoles;
@@ -57,6 +60,8 @@ private:
 		{ Platform, "Platform" },
 		{ PreferenceRole, "Preference Role" }
 	};
+
+	void modifyContextRole(Header type, QString value, int row);
 };
 
 #endif // CONTEXTUALROLETABLEMODEL_H

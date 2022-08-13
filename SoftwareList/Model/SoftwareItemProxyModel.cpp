@@ -133,7 +133,7 @@ bool SoftwareItemProxyModel::filterAcceptsRow(int source_row, const QModelIndex&
 							bool categoryMatch = false;
 							if (filterPatterns.contains(SWItemRole::CategoryRole)) {
 								for (const QString& category : filterPatterns[SWItemRole::CategoryRole]) {
-									if (ctxRole->getCategory() == category) {
+									if (ctxRole->category == category) {
 										categoryMatch = true;
 										break;
 									}
@@ -145,7 +145,7 @@ bool SoftwareItemProxyModel::filterAcceptsRow(int source_row, const QModelIndex&
 							bool platformMatch = false;
 							if (filterPatterns.contains(SWItemRole::PlatformRole)) {
 								for (const QString& platform : filterPatterns[SWItemRole::PlatformRole]) {
-									if (ctxRole->getPlatform() == platform) {
+									if (ctxRole->platform == platform) {
 										platformMatch = true;
 										break;
 									}

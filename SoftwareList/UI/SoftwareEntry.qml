@@ -25,7 +25,10 @@ ApplicationWindow {
 
 	objectName: "softwareEntryWindow"
 
-	signal categoryChanged(int catIndex, int row)
+	signal categoryChanged(string category, int row)
+	signal platformChanged(string platform, int row)
+	signal prefRoleChanged(string prefRole, int row)
+	signal addRowClicked()
 
 	ScrollView {
 		anchors.fill: parent
@@ -92,7 +95,7 @@ ApplicationWindow {
 								currentIndex: display
 								model: ModelProvider.catList
 								textRole: "modelData"
-								onActivated: categoryChanged(index, row)
+								onActivated: categoryChanged(currentText, row)
 							}
 						}
 
@@ -102,6 +105,7 @@ ApplicationWindow {
 								currentIndex: display
 								model: ModelProvider.platformModel
 								textRole: "display"
+								onActivated: platformChanged(currentText, row)
 							}
 						}
 
@@ -111,6 +115,7 @@ ApplicationWindow {
 								currentIndex: display
 								model: ModelProvider.preferenceRoleModel
 								textRole: "display"
+								onActivated: prefRoleChanged(currentText, row)
 							}
 						}
 
@@ -126,6 +131,7 @@ ApplicationWindow {
 				Button {
 					text: qsTr("Add")
 					Layout.bottomMargin: 10
+					onClicked: addRowClicked()
 				}
 
 				RowLayout {

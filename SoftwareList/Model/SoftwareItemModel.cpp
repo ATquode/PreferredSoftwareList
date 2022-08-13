@@ -68,16 +68,16 @@ void SoftwareItemModel::addItem(const SoftwareItem* item)
 		}
 
 		for (const ContextualRole* prefRole : item->preferenceRoles) {
-			id = dbManager->getCategoryID(prefRole->getCategory());
+			id = dbManager->getCategoryID(prefRole->category);
 			if (!id.isValid()) {
-				qCritical() << "Category: " << prefRole->getCategory() << " does not exist in DB";
+				qCritical() << "Category: " << prefRole->category << " does not exist in DB";
 				continue;
 			}
 			int categoryID = id.toInt();
 
-			id = dbManager->getPlatformID(prefRole->getPlatform());
+			id = dbManager->getPlatformID(prefRole->platform);
 			if (!id.isValid()) {
-				qCritical() << "Platform: " << prefRole->getPlatform() << " does not exist in DB";
+				qCritical() << "Platform: " << prefRole->platform << " does not exist in DB";
 				continue;
 			}
 			int platformID = id.toInt();
@@ -91,7 +91,7 @@ void SoftwareItemModel::addItem(const SoftwareItem* item)
 
 			id = dbManager->addCategoryPlatformSoftwareRoleLink(categoryID, platformID, softwareID, prefRoleID);
 			if (!id.isValid()) {
-				qCritical() << "Failed to link Software item: " << item->name << " with Preference Role: " << prefRole->prefRole << " with Category: " << prefRole->getCategory() << " with Platfrom: " << prefRole->getPlatform();
+				qCritical() << "Failed to link Software item: " << item->name << " with Preference Role: " << prefRole->prefRole << " with Category: " << prefRole->category << " with Platfrom: " << prefRole->platform;
 				// TODO: Rollback
 			}
 		}
