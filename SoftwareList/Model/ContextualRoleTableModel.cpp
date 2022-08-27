@@ -93,7 +93,9 @@ void ContextualRoleTableModel::onPrefRoleChanged(QString prefRole, int row)
 void ContextualRoleTableModel::onAddRowClicked()
 {
 	ContextualRole* ctxRole = new ContextualRole("", "", "");
+	beginInsertRows(QModelIndex(), rowCount(), rowCount());
 	ctxRoles.append(ctxRole);
+	endInsertRows();
 }
 
 void ContextualRoleTableModel::modifyContextRole(Header type, QString value, int row)

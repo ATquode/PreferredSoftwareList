@@ -59,8 +59,7 @@ ApplicationWindow {
 				TableView {
 					id: tableView
 					Layout.fillWidth: true
-//					Layout.minimumHeight: 20
-					Layout.preferredHeight: 16 + ((tbm.rowCount() - 1) * 32.5) + ((tbm.rowCount() - 1) * 5) + 10
+					Layout.preferredHeight: 16 + ((rows - 1) * 32.5) + ((rows - 1) * 5) + 10
 					rowHeightProvider: function (row) {
 						if (row === 0) {
 							return 16
@@ -73,7 +72,12 @@ ApplicationWindow {
 					Layout.topMargin: 10
 					columnSpacing: 5
 					rowSpacing: 5
-//					columnWidthProvider: function (column) { return 300; }
+					columnWidthProvider: function (column) {
+						if (column === 3) {
+							return 100;
+						}
+						return 125;
+					}
 
 					model: ContextualRoleTableModel {
 						id: tbm
