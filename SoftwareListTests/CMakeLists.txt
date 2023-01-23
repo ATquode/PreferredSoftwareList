@@ -42,6 +42,9 @@ set(TEST_SOURCES
 	../SoftwareList/Model/SoftwareItemModel.cpp
 	../SoftwareList/Model/SoftwareItemProxyModel.cpp
 	../SoftwareList/Model/ContextualRole.h
+	../SoftwareList/Model/PlatformListModel.h
+	../SoftwareList/Model/PreferenceRoleListModel.h
+	../SoftwareList/Model/ModelProvider.h
 	../SoftwareList/Model/ContextualRoleTableModel.cpp
 	Category/CategoryTests.cpp
 	SoftwareItem/SoftwareModelTests.cpp

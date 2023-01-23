@@ -6,6 +6,7 @@
 #define CONTEXTUALROLETABLEMODEL_H
 
 #include "Model/ContextualRole.h"
+#include "Model/ModelProvider.h"
 
 #include <QAbstractTableModel>
 #include <QQmlParserStatus>
@@ -15,6 +16,7 @@ class ContextualRoleTableModel : public QAbstractTableModel, public QQmlParserSt
 	Q_OBJECT
 	Q_INTERFACES(QQmlParserStatus)
 	Q_PROPERTY(QVariant contextRoles READ contextRoles WRITE setContextRoles NOTIFY contextRolesChanged)
+	Q_PROPERTY(ModelProvider* modelProvider MEMBER modelProvider)
 	QML_ELEMENT
 
 public:
@@ -48,20 +50,25 @@ public slots:
 
 private:
 	QList<ContextualRole*> ctxRoles;
+	ModelProvider* modelProvider;
 
 	enum Header {
 		Category,
 		Platform,
-		PreferenceRole
+		PreferenceRole,
+		RemoveBtn
 	};
 
-	const QHash<int, QByteArray> headerData = {
+	const QList<std::pair<Header, QByteArray>> headerData = {
 		{ Category, "Category" },
 		{ Platform, "Platform" },
-		{ PreferenceRole, "Preference Role" }
+		{ PreferenceRole, "Preference Role" },
+		{ RemoveBtn, "" }
 	};
 
+	ContextualRole* getContextRole(int row) const;
 	void modifyContextRole(Header type, QString value, int row);
+	int getSelectedItemIndex(Header type, int row) const;
 };
 
 #endif // CONTEXTUALROLETABLEMODEL_H

@@ -19,21 +19,23 @@ int ContextualRoleTableModel::rowCount(const QModelIndex&) const
 
 int ContextualRoleTableModel::columnCount(const QModelIndex&) const
 {
-	return headerData.count() + 1;
+	return headerData.count();
 }
 
 QVariant ContextualRoleTableModel::data(const QModelIndex& index, int role) const
 {
+	std::pair<Header, QByteArray> headerPair;
+	Header header;
+
 	switch (role) {
 	case Qt::DisplayRole:
+		headerPair = headerData[index.column()];
+
 		if (index.row() == 0) {
-			if (index.column() < headerData.count()) {
-				return headerData[index.column()];
-			} else {
-				return "";
-			}
+			return std::get<1>(headerPair);
 		} else {
-			return -1;
+			header = std::get<0>(headerPair);
+			return getSelectedItemIndex(header, index.row());
 		}
 	default:
 		break;
@@ -98,21 +100,29 @@ void ContextualRoleTableModel::onAddRowClicked()
 	endInsertRows();
 }
 
-void ContextualRoleTableModel::modifyContextRole(Header type, QString value, int row)
+ContextualRole* ContextualRoleTableModel::getContextRole(int row) const
 {
 	int ctxRoleIndex = row - 1;
 
 	if (ctxRoleIndex < 0) {
 		qCritical() << "invalid index";
-		return;
+		return nullptr;
 	}
 
 	if (ctxRoleIndex >= ctxRoles.count()) {
 		qCritical() << "index out of bounds";
-		return;
+		return nullptr;
 	}
 
-	ContextualRole* ctxRole = ctxRoles.at(ctxRoleIndex);
+	return ctxRoles.at(ctxRoleIndex);
+}
+
+void ContextualRoleTableModel::modifyContextRole(Header type, QString value, int row)
+{
+	ContextualRole* ctxRole = getContextRole(row);
+	if (ctxRole == nullptr) {
+		return;
+	}
 
 	switch (type) {
 	case Category:
@@ -133,5 +143,36 @@ void ContextualRoleTableModel::modifyContextRole(Header type, QString value, int
 		}
 		ctxRole->prefRole = value;
 		break;
+	case RemoveBtn:
+		break;
 	}
+}
+
+int ContextualRoleTableModel::getSelectedItemIndex(Header type, int row) const
+{
+	ContextualRole* ctxRole = getContextRole(row);
+	if (ctxRole == nullptr) {
+		return -1;
+	}
+
+	QString value;
+	QStringList list;
+	switch (type) {
+	case Category:
+		value = ctxRole->category;
+		list = modelProvider->catList();
+		break;
+	case Platform:
+		value = ctxRole->platform;
+		list = modelProvider->platModel()->stringList();
+		break;
+	case PreferenceRole:
+		value = ctxRole->prefRole;
+		list = modelProvider->preferenceRoleModel()->stringList();
+		break;
+	case RemoveBtn:
+		break;
+	}
+
+	return list.indexOf(value);
 }

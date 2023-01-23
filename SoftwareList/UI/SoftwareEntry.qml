@@ -82,6 +82,7 @@ ApplicationWindow {
 					model: ContextualRoleTableModel {
 						id: tbm
 						contextRoles: softItem.preferenceRoles
+						modelProvider: ModelProvider
 					}
 
 					delegate: DelegateChooser {
