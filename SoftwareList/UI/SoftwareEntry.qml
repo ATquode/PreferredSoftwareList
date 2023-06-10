@@ -29,6 +29,7 @@ ApplicationWindow {
 	signal platformChanged(string platform, int row)
 	signal prefRoleChanged(string prefRole, int row)
 	signal addRowClicked()
+	signal removeRowClicked(int row)
 
 	ScrollView {
 		anchors.fill: parent
@@ -128,6 +129,7 @@ ApplicationWindow {
 							column: 3
 							delegate: Button {
 								text: qsTr("Remove")
+								onClicked: removeRowClicked(row)
 							}
 						}
 					}

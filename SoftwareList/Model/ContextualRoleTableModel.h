@@ -47,6 +47,7 @@ public slots:
 	void onPlatformChanged(QString platform, int row);
 	void onPrefRoleChanged(QString prefRole, int row);
 	void onAddRowClicked();
+	void onRemoveRowClicked(int row);
 
 private:
 	QList<ContextualRole*> ctxRoles;

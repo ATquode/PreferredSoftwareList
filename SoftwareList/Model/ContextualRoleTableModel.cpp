@@ -73,7 +73,8 @@ void ContextualRoleTableModel::componentComplete()
 	QObject::connect(swEntryWindow, SIGNAL(categoryChanged(QString,int)), this, SLOT(onCategoryChanged(QString,int)));
 	QObject::connect(swEntryWindow, SIGNAL(platformChanged(QString,int)), this, SLOT(onPlatformChanged(QString,int)));
 	QObject::connect(swEntryWindow, SIGNAL(prefRoleChanged(QString,int)), this, SLOT(onPrefRoleChanged(QString,int)));
-	QObject::connect(swEntryWindow, SIGNAL(addRowClicked()), this, SLOT(onAddRowClicked()));
+    QObject::connect(swEntryWindow, SIGNAL(addRowClicked()), this, SLOT(onAddRowClicked()));
+    QObject::connect(swEntryWindow, SIGNAL(removeRowClicked(int)), this, SLOT(onRemoveRowClicked(int)));
 	// clang-format on
 }
 
@@ -98,6 +99,23 @@ void ContextualRoleTableModel::onAddRowClicked()
 	beginInsertRows(QModelIndex(), rowCount(), rowCount());
 	ctxRoles.append(ctxRole);
 	endInsertRows();
+}
+
+void ContextualRoleTableModel::onRemoveRowClicked(int row)
+{
+	ContextualRole* ctxRole = getContextRole(row);
+	if (ctxRole == nullptr) {
+		return;
+	}
+
+	int ctxRoleIndex = row - 1;
+	beginRemoveRows(QModelIndex(), row, row);
+	ctxRoles.removeAt(ctxRoleIndex);
+	delete ctxRole;
+	if (ctxRoles.count() == 0) {
+		ctxRoles.append(new ContextualRole("", "", ""));
+	}
+	endRemoveRows();
 }
 
 ContextualRole* ContextualRoleTableModel::getContextRole(int row) const
